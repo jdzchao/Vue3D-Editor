@@ -1,0 +1,27 @@
+{
+  "name": "vue3d@editor",
+  "version": "0.1.0",
+  "description": "Vue3D editor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jdzchao/Vue3D-Editor.git"
+  },
+  "keywords": [
+    "vue",
+    "three"
+  ],
+  "author": "JdzChao",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jdzchao/Vue3D-Editor/issues"
+  },
+  "homepage": "https://github.com/jdzchao/Vue3D-Editor#readme",
+  "dependencies": {
+    "element-ui": "^2.7.2",
+    "three": "^0.102.1"
+  }
+}
