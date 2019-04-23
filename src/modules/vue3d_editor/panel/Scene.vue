@@ -19,33 +19,12 @@
 
 <script>
     import {mapGetters, mapState} from 'vuex'
-    import {
-        Vue3d,
-        V3dLightAmbient,
-        V3dLightDirectional,
-        V3dLightRectArea,
-        V3dLightSpot,
-        V3dGeomCylinder,
-        V3dCameraPerspective,
-        V3dScene,
-        Materials,
-        Config
-    } from '_v3d'
+    import {Materials, Bus} from 'vue3d'
     // import CLoader from '../extend/CLoader'
     // import CMaterial from '../extend/CMaterial'
 
     export default {
         name: "PanelScene",
-        // components: {
-        //     Vue3d,
-        //     V3dScene,
-        //     V3dLightAmbient,
-        //     V3dLightDirectional,
-        //     V3dLightRectArea,
-        //     V3dLightSpot,
-        //     V3dGeomCylinder,
-        //     V3dCameraPerspective
-        // },
         data() {
             return {
                 width: 100,
@@ -54,7 +33,7 @@
                 rotation: {x: 0, y: 0, z: 0},
                 scale: {x: 1, y: 1, z: 1},
                 Materials,
-                config: Config,
+                config: Bus.config,
                 plugins: {box: true, grid: true}
             }
         },

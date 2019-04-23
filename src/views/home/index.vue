@@ -9,29 +9,11 @@
 </template>
 
 <script>
-    import {
-        Vue3d,
-        V3dCameraPerspective,
-        V3dGeomCylinder,
-        V3dLightDirectional,
-        V3dLightRectArea,
-        V3dLightSpot,
-        V3dLightAmbient,
-        Materials,
-        Config
-    } from "_v3d"
+    import {Materials} from 'vue3d'
 
     export default {
         name: "home",
-        components: {
-            Vue3d,
-            V3dLightAmbient,
-            V3dLightDirectional,
-            V3dLightRectArea,
-            V3dLightSpot,
-            V3dGeomCylinder,
-            V3dCameraPerspective,
-        },
+
         data() {
             return {
                 width: 100,
