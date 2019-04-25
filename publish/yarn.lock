@@ -64,14 +64,19 @@ three@^0.102.1:
   resolved "https://registry.yarnpkg.com/three/-/three-0.102.1.tgz#fc08b6b11860cf59e8cd45b7e90e34d1d1a8cbd6"
   integrity sha512-btHBdww/Es4vdBkB2GjTE9mpj0vy8tgtxkX7ne7uxySXV8zoGxWJv1N88BydxnCqvAfmD4ZUTqPeESO7oDgeOQ==
 
+three@^0.103.0:
+  version "0.103.0"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.103.0.tgz#63b3dbccc861caad93269618061a73dadebae71b"
+  integrity sha512-4WKRHTMt96sp+lX+Hx/eHtN9CWFyejDqr1ikgxZUJIkKEHVglSE7FY8n81NC6yWXqVSjUIQQppaxsoUe26Zi9g==
+
 throttle-debounce@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/throttle-debounce/-/throttle-debounce-1.1.0.tgz#51853da37be68a155cb6e827b3514a3c422e89cd"
   integrity sha512-XH8UiPCQcWNuk2LYePibW/4qL97+ZQ1AN3FNXwZRBNPPowo/NRU5fAlDCSNBJIYCKbioZfuYtMhG4quqoJhVzg==
 
-vue3d@^0.6.2:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/vue3d/-/vue3d-0.6.2.tgz#8d2200ab4f71e8459ff09a84214d1b09a151c264"
-  integrity sha512-ptsO92zxr3NeElqONZX2ELz0Dn03bTJuMhhIC+9dW83Z2FdSEinHEJ4Pz1PY4L7x2E6TDp8fZWA/A4YNEoqZTg==
+vue3d@^0.6.3:
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/vue3d/-/vue3d-0.6.3.tgz#530bc137494b0c0f7504cc60d2a5606ca098b2de"
+  integrity sha512-QzbRsH5z3QapCeeZqJf13M6u4UE6IPUYsWaVFejzGXDZ/WfL79Fc1bHz11PM7tsMzFp/MGm3VN954dYwq2SmTQ==
   dependencies:
-    three "^0.102.1"
+    three "^0.103.0"

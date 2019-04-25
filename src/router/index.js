@@ -12,9 +12,6 @@ Vue.use(Router);
 
 // 自定义路由
 export const asyncRouterMap = [
-    // member,
-    // setting,
-    editor,
     error,
     {path: '*', redirect: '/error', hidden: true},
 ]
@@ -24,14 +21,14 @@ export const coreRouterMap = [
     {
         path: '/',
         component: PageSite,
-        redirect: '/home',
+        redirect: '/editor',
         children: [
             {
-                path: 'home',
-                name: 'home',
-                component: () => import(/* webpackChunkName: "core" */'@/views/home/index'),
+                path: 'editor',
+                name: 'editor',
+                component: () => import(/* webpackChunkName: "core" */'@/views/editor/index'),
                 meta: {
-                    title: 'home', icon: 'dashboard', noCache: true,
+                    title: 'editor', icon: 'scene', noCache: true,
                 }
             }
         ]

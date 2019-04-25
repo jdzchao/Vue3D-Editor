@@ -6,7 +6,6 @@ import store from './store'
 import ElementUI from 'element-ui'
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 import 'element-ui/lib/theme-chalk/index.css'
-import Vue3DEditor from '../publish'
 
 import '@/assets/styles/index.scss' // global css
 import '@/assets/icon-font' //icon font
@@ -16,6 +15,7 @@ import '@/permission' // permission control
 import '@/utils/global'
 
 import i18n from './i18n'
+import Vue3DEditor from '../publish'
 
 Vue.use(Vue3DEditor);
 

@@ -9,10 +9,10 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex'
+    import {mapState} from 'vuex/types'
     import {XObjLoader} from 'vue3d'
     // import {meshPath} from "@/api/s3";
-    import {empty, guid} from '@/utils/index'
+    import {empty, guid} from '@/utils'
     import CLoader from './CLoader'
 
     export default {

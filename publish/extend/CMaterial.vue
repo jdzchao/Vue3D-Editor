@@ -3,8 +3,8 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex'
-    import * as THREE from 'three'
+    import {mapState} from 'vuex/types'
+    import * as THREE from 'three/src/Three'
     // import {imagePath} from "@/api/s3"
     import {canvas, loadFabricImage, phong} from './materials'
 

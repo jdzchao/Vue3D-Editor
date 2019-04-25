@@ -3,13 +3,9 @@
 </template>
 
 <script>
-    import Vue3dEditor from "@/modules/vue3d_editor/index";
 
     export default {
         name: "vue3d",
-        components: {
-            Vue3dEditor,
-        },
         data() {
             return {
                 id: this.$route.query.id

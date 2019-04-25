@@ -1,4 +1,4 @@
-import * as THREE from 'three'
+import * as THREE from 'three/src/Three'
 // import {fabric} from 'fabric'
 
 const preset = {
