@@ -81,11 +81,11 @@
 
 <script>
     // import {imagePath} from "@/api/s3";
-    import {mapState} from 'vuex'
+    // import {mapState} from 'vuex'
     import {validateName} from "@/utils/validate"
     import * as THREE from 'three'
     // import ImageUploader from "../../ImageUploader";
-    import {loadFabricImage} from "../extend/materials";
+    // import {loadFabricImage} from "../extend/materials";
 
     export default {
         // components: {ImageUploader},
@@ -99,19 +99,19 @@
             }
         },
         computed: {
-            ...mapState({
-                materials: state => state.sceneEditor._materials,
-                selectedObj: state => state.sceneEditor.selected.obj,
-                editableMaterialMap: state => state.sceneEditor.setting.editableMaterialMap,
-                editableMaterialNormalMap: state => state.sceneEditor.setting.editableMaterialNormalMap,
-                editableMaterialSpecularMap: state => state.sceneEditor.setting.editableMaterialSpecularMap,
-            })
+            // ...mapState({
+            //     materials: state => state.sceneEditor._materials,
+            //     selectedObj: state => state.sceneEditor.selected.obj,
+            //     editableMaterialMap: state => state.sceneEditor.setting.editableMaterialMap,
+            //     editableMaterialNormalMap: state => state.sceneEditor.setting.editableMaterialNormalMap,
+            //     editableMaterialSpecularMap: state => state.sceneEditor.setting.editableMaterialSpecularMap,
+            // })
         },
         watch: {
             selectedObj(val) {
                 console.log(this.materials)
                 if (val && val.handler) {
-                    this.object = this.$store.state.sceneEditor._objects[val.handler];
+                    // this.object = this.$store.state.sceneEditor._objects[val.handler];
                     this.name = this.object.material;
                     this.disabled = false;
                 } else {

@@ -27,7 +27,7 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex'
+    // import {mapState} from 'vuex'
 
     export default {
         name: "ItemHierarchy",
@@ -42,10 +42,10 @@
             }
         },
         computed: {
-            ...mapState({
-                objects: state => state.sceneEditor.data.objects,
-                selectedName: state => state.sceneEditor.selected.name,
-            })
+            // ...mapState({
+            //     objects: state => state.sceneEditor.data.objects,
+            //     selectedName: state => state.sceneEditor.selected.name,
+            // })
         },
         watch: {
             selectedName(val, oldVal) {
@@ -56,10 +56,10 @@
         },
         methods: {
             changeTarget(data) {
-                this.$store.dispatch('GetSelectedByName', data.name).then();
+                // this.$store.dispatch('GetSelectedByName', data.name).then();
             },
             appendSelected() {
-                this.$store.commit('OPEN_DIALOG', 'select');
+                // this.$store.commit('OPEN_DIALOG', 'select');
             },
             removeSelected() {
                 this.$confirm('是否删除当前选中的对象，其子对象也将一并删除?', '提示', {
@@ -67,13 +67,13 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.$store.dispatch('RemoveObject').then(() => {
-                        this.$notify({
-                            title: '成功',
-                            message: '成功删除对象',
-                            type: 'success'
-                        });
-                    })
+                    // this.$store.dispatch('RemoveObject').then(() => {
+                    //     this.$notify({
+                    //         title: '成功',
+                    //         message: '成功删除对象',
+                    //         type: 'success'
+                    //     });
+                    // })
                 }).catch(() => {
                     this.$message({
                         type: 'info',
@@ -82,7 +82,7 @@
                 });
             },
             freeSelected() {
-                this.$store.commit('FREE_SELECTED');
+                // this.$store.commit('FREE_SELECTED');
             }
         }
     }
@@ -97,6 +97,7 @@
 
     .tree {
         width: 100%;
+        padding: 10px;
     }
 </style>
 <style>

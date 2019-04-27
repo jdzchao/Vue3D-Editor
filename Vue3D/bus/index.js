@@ -13,12 +13,25 @@ const bus = {
     },
     methods: {
         /**
-         * 加载配置文件
+         * 设置配置文件
+         * @param conf
+         */
+        setConf(conf) {
+            if (typeof conf !== 'object') return;
+            this.config = Object.assign(this.config, conf);
+            return this.config;
+        },
+        /**
+         * 读取配置文件
+         * INFO: 读取的时候不会修改配置文件，但是可以传入对象合并配置信息并返回新配置。
          * @param conf
          */
         loadConf(conf) {
-            if (typeof conf !== 'object') return;
-            this.config = Object.assign(this.config, conf);
+            if (typeof conf !== 'object') {
+                return this.config;
+            } else {
+                return Object.assign({}, this.config, conf);
+            }
         }
     },
 };

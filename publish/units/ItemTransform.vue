@@ -61,7 +61,7 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex'
+    // import {mapState} from 'vuex'
 
     export default {
         name: "ItemTransform",
@@ -73,13 +73,13 @@
                 rotation: {x: 0, y: 0, z: 0},
                 scale: {x: 1, y: 1, z: 1},
                 axis: {x: 0, y: 0, z: 0},
-                transform: this.$store.state.sceneEditor.setting.transform,
+                // transform: this.$store.state.sceneEditor.setting.transform,
             }
         },
         computed: {
-            ...mapState({
-                selected: state => state.sceneEditor.selected.obj,
-            })
+            // ...mapState({
+            //     selected: state => state.sceneEditor.selected.obj,
+            // })
         },
         watch: {
             selected(val) {
@@ -146,12 +146,12 @@
                 this.rotation.z = parseFloat((n * Math.PI / 180).toFixed(2));
             },
             changeMode(transform) {
-                this.$store.state.sceneEditor.setting.transform = transform;
+                // this.$store.state.sceneEditor.setting.transform = transform;
             },
             sync() {
-                this.$store.state.sceneEditor._objects[this.handler].position = this.position;
-                this.$store.state.sceneEditor._objects[this.handler].rotation = this.rotation;
-                this.$store.state.sceneEditor._objects[this.handler].scale = this.scale;
+                // this.$store.state.sceneEditor._objects[this.handler].position = this.position;
+                // this.$store.state.sceneEditor._objects[this.handler].rotation = this.rotation;
+                // this.$store.state.sceneEditor._objects[this.handler].scale = this.scale;
             }
         }
     }

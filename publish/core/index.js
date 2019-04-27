@@ -3,17 +3,20 @@ import Vue from 'vue'
 const core = {
     data() {
         return {
+            v3d: null,
             selected: null
         }
     },
     created() {
-        this.$vue3d.on('capture', this.onSelected)
+        this.$nextTick(() => {
+            this.$vue3d.on('capture', this.onSelected)
+        })
     },
     methods: {
         onSelected(editor, obj) {
             this.selected = obj;
         },
-        render(){
+        render() {
             // this.$vue3d.
         }
     }

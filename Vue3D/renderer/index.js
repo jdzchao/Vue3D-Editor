@@ -6,15 +6,6 @@ import event from './event'
 import scenes from './scenes'
 import orbit from './orbit'
 
-class Vue3D {
-    constructor() {
-        this.type = "Vue3D";
-        this.renderer = null;
-        this.status = 'awake';
-        this.uuid = '';
-    }
-}
-
 /**
  * Vue3D 渲染总线
  */
@@ -41,13 +32,12 @@ export default class {
                 ratio: 1, // renderer ratio
                 clearColor: "rgb(25,25,25)", // renderer clear color
                 clearAlpha: 1, // renderer clear alpha
-
-                // renderer info
-                info: new Vue3D()
             },
             watch: {},
             methods: {
-                init(canvas, scene, camera, renderer_params, callback) {
+                init(canvas, scene, camera, config, callback) {
+                    this.setStatus(0);
+                    let renderer_params = config.renderer;
                     renderer_params['canvas'] = canvas;
                     this.$data._$canvas = canvas;
                     this.$data._$scene = scene;
@@ -56,12 +46,9 @@ export default class {
 
                     this.$data._$scene.add(this.$data._$camera);
 
-                    this.info.uuid = this.$data._$scene.uuid;
-                    this.info.renderer = this;
-
-                    this.scenes_init();
-                    this.orbit_init();
-                    this.capture_init();
+                    if (config.scenes) this.scenes_init(config.scenes);
+                    if (config.orbit) this.orbit_init(config.orbit);
+                    if (config.capture) this.capture_init(config.capture);
 
                     this.render();
 
@@ -75,20 +62,20 @@ export default class {
                 // 渲染一帧
                 render() {
                     if (this.$data._$status === 0) {
-                        this.setStatus("start"); // 切换渲染器状态
+                        this.setStatus(1); // 切换渲染器状态
                         this.on("render", this.render); // 【兼容】监听 render 事件
                     }
                     if (this.$data._$rendering || this.$data._$pause) return;
                     this.$data._$rendering = requestAnimationFrame(() => {
-                        this.setStatus('render'); // 切换渲染器状态
+                        this.setStatus(2); // 切换渲染器状态
                         Bus.delegationCall(this); // 调用委托中的方法
+
+                        this.emit("update"); // 触发组件更新事件
 
                         // 当 pure 为真时，则仅渲染 standard scene
                         this.$data._$play ?
                             this.$data._$renderer.render(this.scene, this.cameras) :
                             this.$data._$renderer.render(this.$data._$scene, this.$data._$camera);
-
-                        this.emit("update"); // 正常来讲只有这里能触发update事件
 
                         this.$data._$rendering = null; // 当前帧渲染完成，释放掉
 
@@ -114,21 +101,8 @@ export default class {
                         status = status_enum.indexOf(status);
                     }
                     if (status <= this.$data._$status) return; // 不允许小于当前状态
-                    switch (status) {
-                        case  1:
-                            this.$data._$status = 1;
-                            this.info.status = 'Start';
-                            Bus.emit("start", this.info);
-                            break;
-                        case  2:
-                            this.$data._$status = 2;
-                            this.info.status = 'Render';
-                            Bus.emit("render", this.info);
-                            // Bus.info("ლ(´ڡ`ლ) Vue3D Status => Render");
-                            break;
-                        default:
-                            return;
-                    }
+                    this.$data._$status = status;
+                    this.emit("status", status_enum[status]);
                 },
                 setAuto() {
                     this.$data._$auto = !this.$data._$auto;

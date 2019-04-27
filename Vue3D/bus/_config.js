@@ -3,6 +3,9 @@
  */
 export default {
     debug: true,
+    capture: true,
+    orbit: true,
+    scenes: true,
     // WebGLRenderer Constructor parameters
     renderer: {
         alpha: true,

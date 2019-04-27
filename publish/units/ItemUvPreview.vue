@@ -9,7 +9,6 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex'
 
     export default {
         name: "ItemUvPreview",
@@ -20,9 +19,9 @@
             }
         },
         computed: {
-            ...mapGetters({
-                selectedMaterial: 'sceneSelectedMaterial'
-            })
+            // ...mapGetters({
+            //     selectedMaterial: 'sceneSelectedMaterial'
+            // })
         },
         watch: {
             selectedMaterial(val) {

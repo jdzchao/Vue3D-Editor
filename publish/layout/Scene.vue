@@ -1,17 +1,6 @@
 <template>
     <div id="panel-scene">
-        <vue3d ref="scene" :width="width" :height="height" :config="config" :plugins="plugins">
-            <v3d-scene id="scene">
-                <v3d-light-rect-area :width="100" :height="100" :intensity="1"
-                                     :target="{x:5,y:0,z:0}" :position="{x:0,y:0,z:10}"></v3d-light-rect-area>
-                <v3d-geom-cylinder :material="Materials.standard()" :radialSegments="50"></v3d-geom-cylinder>
-<!--                <v3d-camera-perspective ref="camera" :dis="10" :size="1" :x="0" :y="0" :width="500" :height="500"-->
-<!--                                        @ready="setCamera">-->
-<!--                </v3d-camera-perspective>-->
-            </v3d-scene>
 
-
-        </vue3d>
     </div>
 </template>
 
@@ -84,7 +73,8 @@
             },
         },
         mounted() {
-            console.log(this.$refs.scene.$data.$_scene, this.$refs.scene.scene);
+            this.$editor.editor = this.$refs.editor;
+            console.log(this.$editor.editor)
             this.resize();
             window.addEventListener("resize", this.resize);
         },

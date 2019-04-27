@@ -18,7 +18,7 @@
     import Scene_SkyBox from "../../mixins/Scene_SkyBox"
 
     export default {
-        name: "vue3d",
+        name: "Vue3d",
         components: {
             BoxHelper,
             GridHelper,
@@ -31,11 +31,7 @@
             ratio: {type: Number, default: 0},
 
             // Vue3d Configs Object
-            config: {
-                type: Object, default() {
-                    return Bus.config
-                }
-            },
+            config: {type: Object},
 
             // helper components
             plugins: {
@@ -77,6 +73,7 @@
             }
         },
         mounted() {
+            let config = Bus.setConf(this.config); // 加载配置文件
             // 初始化基础组件
             this.$data.$_canvas = this.$el;
             this.$data.$_scene = new THREE.Scene();
@@ -89,7 +86,7 @@
                 this.$data.$_canvas,
                 this.$data.$_scene,
                 this.$data.$_camera,
-                this.config.hasOwnProperty('renderer') ? this.config['renderer'] : {}, // 读取配置文件
+                config, // 读取配置文件
                 // callback
                 res => {
                     this.scene = res.scene;

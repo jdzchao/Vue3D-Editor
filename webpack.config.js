@@ -9,28 +9,11 @@ module.exports = {
         extensions: ['.js', '.vue', '.json'],
         alias: {
             '@': path.resolve(__dirname, 'src'),
-            "@c": path.resolve(__dirname, 'src/components'),
-            "@edt": path.resolve(__dirname, 'publish'),
+            '@c': path.resolve(__dirname, 'src/components'),
+            '@edt': path.resolve(__dirname, 'publish')
         }
     },
     module: {
-        rules: [
-            {
-                test: /\.svg$/,
-                loader: 'svg-sprite-loader',
-                include: [resolve('src/assets/icon-svg')],
-                options: {
-                    symbolId: 'icon-[name]'
-                }
-            },
-            {
-                test: /\.svg$/,
-                loader: 'file-loader',
-                exclude: [resolve('src/assets/icon-svg')],
-                options: {
-                    name: 'img/[name].[hash:8].[ext]'
-                }
-            }
-        ]
+        rules: []
     }
 };

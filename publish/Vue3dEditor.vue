@@ -1,63 +1,91 @@
 <template>
     <div id="vue3d-editor">
         <div class="viewport">
-            <vue3d id="editor" :width="width" :height="height" :plugins="plugins">
-                <slot></slot>
+            <vue3d ref="editor" :width="width" :height="height" :config="config" :plugins="plugins">
+                <v3d-scene id="scene">
+                    <v3d-light-rect-area :width="100" :height="100" :intensity="1"
+                                         :target="{x:5,y:0,z:0}" :position="{x:0,y:0,z:10}"></v3d-light-rect-area>
+                    <v3d-geom-cylinder :material="Materials.standard()" :radialSegments="50"></v3d-geom-cylinder>
+                    <!--                <v3d-camera-perspective ref="camera" :dis="10" :size="1" :x="0" :y="0" :width="500" :height="500"-->
+                    <!--                                        @ready="setCamera">-->
+                    <!--                </v3d-camera-perspective>-->
+                </v3d-scene>
             </vue3d>
-            <!--            <panel-scene></panel-scene>-->
         </div>
-        <div class="tools">
-            <el-tabs type="border-card" class="tabs">
-                <!--                <el-tab-pane label="Inspector">-->
-                <!--                    <panel-inspector></panel-inspector>-->
-                <!--                </el-tab-pane>-->
-                <!--                <el-tab-pane label="Hierarchy">-->
-                <!--                    <panel-hierarchy></panel-hierarchy>-->
-                <!--                </el-tab-pane>-->
-                <slot slot-scope="label">
-
-                </slot>
-            </el-tabs>
-            <panel-menu></panel-menu>
-        </div>
-<!--        <panel-dialog></panel-dialog>-->
+        <panel-tools class="side-bar"></panel-tools>
+        <panel-dialog></panel-dialog>
     </div>
 </template>
 
 <script>
-    // import Vue3d from "@/views/editor/index";
-    import PanelScene from "./layout/Scene";
-    import PanelInspector from "./layout/Inspector";
-    import PanelHierarchy from "./layout/Hierarchy";
-    import PanelMenu from "./layout/Menu"
-    import PanelDialog from "./layout/Dialog";
-    // import core from './core'
+    import PanelTools from "./layout/Tools"
+    import PanelDialog from "./layout/Dialog"
     import {Materials} from 'vue3d'
+    import {TransformControls} from './extend/TransformControls'
 
     export default {
         name: "Vue3dEditor",
         components: {
-            PanelScene, PanelInspector, PanelHierarchy, PanelMenu, PanelDialog
+            PanelTools, PanelDialog
         },
         data() {
             return {
-                width: 100,
-                height: 100,
-                position: {x: 0, y: 0, z: 0},
-                rotation: {x: 0, y: 0, z: 0},
-                scale: {x: 1, y: 1, z: 1},
                 Materials,
-                plugins: {box: true, grid: true}
+                width: 500,
+                height: 500,
+                config: {debug: false},
+                plugins: {box: true, grid: true},
+
+                canvas: null, // 编辑器画布
+                scene: null, // 编辑器场景
+                camera: null, // 编辑器像机
+                control: null, // 控制器
             }
         },
+        mounted() {
+            // resize
+            this.resize();
+            window.addEventListener("resize", this.resize);
+            // set Vue3D
+            this.$editor.v3d = this.$refs.editor;
+            this.canvas = this.$editor.v3d.$data.$_canvas;
+            this.scene = this.$editor.v3d.$data.$_scene;
+            this.camera = this.$editor.v3d.$data.$_camera;
+            this.camera.position.z = 10;
+            let orbit = this.$editor.v3d.renderer.orbit_get()
+            // set TransformControls
+            this.control = new TransformControls(this.camera, this.canvas);
+            this.control.addEventListener('change', this.renderControl);
+            this.control.update = this.renderControl;
+            this.control.addEventListener('dragging-changed', function (event) {
+                orbit.enabled = !event.value;
+            });
+            this.scene.add(this.control);
+            //
+            this.$vue3d.on('capture', this.setAttach)
+        },
         methods: {
-            setCamera(camera) {
-                camera.position.z = 50;
+            setAttach(editor, obj) {
+                try {
+                    if (obj) {
+                        // this.control.attach(obj.object);
+                    } else {
+                        // this.control.detach();
+                    }
+                } catch (err) {
+                    console.error(err);
+                }
+
             },
             resize() {
-                this.width = this.$el.clientWidth;
-                this.height = this.$el.clientHeight;
+                const viewport = document.querySelector(".viewport")
+                this.width = viewport.clientWidth;
+                this.height = viewport.clientHeight;
             },
+            renderControl() {
+                this.control.update();
+                this.$editor.v3d.renderer.render();
+            }
         },
         watch: {
             selectedObj(val, oldVal) {
@@ -89,12 +117,7 @@
                 }
             },
         },
-        mounted() {
-            console.log(this.$parent)
-            console.log(this.$refs.scene.$data.$_scene, this.$refs.scene.scene);
-            this.resize();
-            window.addEventListener("resize", this.resize);
-        },
+
     }
 </script>
 
@@ -114,37 +137,12 @@
         background-color: #000000;
     }
 
-    .tools {
+    .side-bar {
         float: left;
         width: 350px;
         height: 100%;
         overflow: hidden;
     }
-
-    .tabs {
-        width: 100%;
-        height: calc(100% - 61px);
-    }
-
 </style>
-<style>
-    .tabs .el-tabs__content {
-        overflow-y: scroll;
-        height: calc(100% - 39px);
-    }
 
-    .tabs .el-tabs__content::-webkit-scrollbar-track {
-        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-        background-color: #F5F5F5;
-    }
-
-    .tabs .el-tabs__content::-webkit-scrollbar {
-        width: 3px;
-        background-color: #F5F5F5;
-    }
-
-    .tabs .el-tabs__content::-webkit-scrollbar-thumb {
-        background-color: #545c64;
-    }
-</style>
 

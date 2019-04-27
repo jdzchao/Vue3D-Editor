@@ -37,13 +37,13 @@
         },
         computed: {
             visible() {
-                this.activeName = this.$store.state.sceneEditor.dialog;
-                return this.$store.state.sceneEditor.dialog !== "" && this.$store.state.sceneEditor.dialog !== null;
+                // this.activeName = this.$store.state.sceneEditor.dialog;
+                // return this.$store.state.sceneEditor.dialog !== "" && this.$store.state.sceneEditor.dialog !== null;
             }
         },
         methods: {
             handleClose() {
-                this.$store.commit("CLOSE_DIALOG");
+                // this.$store.commit("CLOSE_DIALOG");
             },
             selectedMesh(obj) {
                 this.addMesh(obj);
@@ -52,8 +52,8 @@
                 this.addMesh(obj.data);
             },
             addMesh(obj) {
-                this.$store.dispatch('AddObject', obj);
-                this.$store.commit("CLOSE_DIALOG");
+                // this.$store.dispatch('AddObject', obj);
+                // this.$store.commit("CLOSE_DIALOG");
             },
             loaded(obj) {
                 this.hash = obj.hash;

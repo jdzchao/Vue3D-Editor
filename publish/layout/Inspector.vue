@@ -1,7 +1,8 @@
 <template>
     <el-collapse v-model="activeCard">
-        <item-transform></item-transform>
-        <item-materials></item-materials>
+<!--        <item-transform></item-transform>-->
+<!--        <item-materials></item-materials>-->
+<!--        <item-materials></item-materials>-->
     </el-collapse>
 </template>
 
