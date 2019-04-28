@@ -1,6 +1,6 @@
 <template>
     <div class="hierarchy">
-        <div class="title">Hierarchy</div>
+        <div class="head">Hierarchy</div>
         <div class="tree">
 <!--            <el-tree ref="tree" show-checkbox check-strictly :data="objects" @current-change="changeTarget"-->
 <!--                     :props="defaultProps" node-key="name" default-expand-all :expand-on-click-node="false"></el-tree>-->
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-    import ItemHierarchy from "../units/ItemHierarchy";
+    import ItemHierarchy from "../components/ItemHierarchy";
 
     export default {
         name: "PanelHierarchy",
@@ -107,7 +107,7 @@
 <style scoped>
     .hierarchy {
         width: 100%;
-        height: 390px;
+        height: 380px;
         position: relative;
     }
 

@@ -31,7 +31,7 @@
 
 <script>
     import {mapGetters, mapState} from 'vuex'
-    import {shape} from '../extend/materials'
+    import {shape} from '../utils/materials'
 
     export default {
         name: "CardUvInfo",

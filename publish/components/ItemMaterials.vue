@@ -94,25 +94,15 @@
             return {
                 disabled: true, // 材质面板是否可用
                 name: '', // 当前操作的材质名称(name)
-                object: {}, // 当前操作的三维对象
                 material: {}, // 当前材质对象
             }
         },
-        computed: {
-            // ...mapState({
-            //     materials: state => state.sceneEditor._materials,
-            //     selectedObj: state => state.sceneEditor.selected.obj,
-            //     editableMaterialMap: state => state.sceneEditor.setting.editableMaterialMap,
-            //     editableMaterialNormalMap: state => state.sceneEditor.setting.editableMaterialNormalMap,
-            //     editableMaterialSpecularMap: state => state.sceneEditor.setting.editableMaterialSpecularMap,
-            // })
-        },
         watch: {
-            selectedObj(val) {
-                console.log(this.materials)
+            "$editor.selected"(val) {
+                console.log(val)
                 if (val && val.handler) {
                     // this.object = this.$store.state.sceneEditor._objects[val.handler];
-                    this.name = this.object.material;
+                    this.material = val.material;
                     this.disabled = false;
                 } else {
                     this.name = '';
@@ -240,14 +230,14 @@
             },
             render() {
                 this.material.mtl.needsUpdate = true;
-                this.$store.dispatch('SceneRender').then()
+                // this.$store.dispatch('SceneRender').then()
             },
             Transparent(value) {
                 return value === true || value === "1" || value === 1;
             }
         },
         mounted() {
-            this.$store.dispatch('AddDefaultMaterial')
+            // this.$store.dispatch('AddDefaultMaterial')
         }
     }
 </script>

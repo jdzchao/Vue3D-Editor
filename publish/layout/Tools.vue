@@ -1,26 +1,21 @@
 <template>
     <div class="tools">
-        <slot></slot>
-        <!--        <el-tabs type="border-card" class="tabs">-->
-        <!--            <el-tab-pane label="Inspector" class="panel">-->
-        <!--                <panel-inspector></panel-inspector>-->
-        <!--            </el-tab-pane>-->
-        <!--            &lt;!&ndash;            <el-tab-pane label="Hierarchy">&ndash;&gt;-->
-        <!--            &lt;!&ndash;                &lt;!&ndash;            <panel-hierarchy></panel-hierarchy>&ndash;&gt;&ndash;&gt;-->
-        <!--            &lt;!&ndash;            </el-tab-pane>&ndash;&gt;-->
-        <!--            <slot slot-scope="label">-->
-
-        <!--            </slot>-->
-        <!--        </el-tabs>-->
+        <!--        <panel-hierarchy></panel-hierarchy>-->
+        <el-tabs type="border-card" class="tabs">
+            <el-tab-pane class="panel" :lazy="true">
+                <span slot="label"><icon-font class="el-icon-date"></icon-font></span>
+                <component is="V3deTransform"></component>
+            </el-tab-pane>
+        </el-tabs>
     </div>
 </template>
 
 <script>
-    import PanelInspector from "./Inspector"
+    import V3deTransform from "@edt/components/V3deTransform";
 
     export default {
-        name: "PanelHierarchy",
-        components: {PanelInspector}
+        name: "PanelTools",
+        components: {V3deTransform}
     }
 </script>
 <style scoped>
@@ -32,6 +27,7 @@
     .tabs {
         height: 100%;
         border: 0;
+        border-top: 1px solid #E4E7ED;
     }
 </style>
 <style>

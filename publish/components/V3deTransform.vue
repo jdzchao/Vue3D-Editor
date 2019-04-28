@@ -1,18 +1,13 @@
 <template>
-    <el-collapse-item id="item-transform" name="transform">
-        <template slot="title">
-            <icon-font type="panel"></icon-font>
-            <span style="margin: 0 0 0 5px">TRANSFORM</span>
-        </template>
+    <div>
+
         <div class="buttons">
             <el-button-group>
-                <el-tooltip class="item" effect="light" content="Reset" placement="top">
-                    <el-button @click="reset" :disabled="disabled">
-                        <icon-font type="reset"></icon-font>
-                    </el-button>
-                </el-tooltip>
+                <el-button @click="reset" :disabled="disabled">
+                    <icon-font type="reset"></icon-font>
+                </el-button>
             </el-button-group>
-            <el-radio-group v-model="transform" @change="changeMode" style="float:right">
+            <el-radio-group v-model="mode" @change="changeMode" style="float:right">
                 <el-radio-button label="translate" :disabled="disabled">
                     <icon-font type="translate"></icon-font>
                 </el-radio-button>
@@ -57,14 +52,14 @@
                                  controls-position="right"></el-input-number>
             </div>
         </div>
-    </el-collapse-item>
+    </div>
 </template>
 
 <script>
     // import {mapState} from 'vuex'
 
     export default {
-        name: "ItemTransform",
+        name: "V3deTransform",
         data() {
             return {
                 disabled: true,
@@ -73,23 +68,25 @@
                 rotation: {x: 0, y: 0, z: 0},
                 scale: {x: 1, y: 1, z: 1},
                 axis: {x: 0, y: 0, z: 0},
-                // transform: this.$store.state.sceneEditor.setting.transform,
+                selected: null,
+                mode: 'translate'
             }
         },
-        computed: {
-            // ...mapState({
-            //     selected: state => state.sceneEditor.selected.obj,
-            // })
+        created() {
+            this.selected = this.$editor.selected;
+            this.mode = this.$editor.control.mode;
         },
         watch: {
-            selected(val) {
+            "$editor.selected"(val) {
                 if (val) {
+                    this.selected = val;
                     this.handler = val.handler;
                     this.position = val.position;
                     this.rotation = val.rotation;
                     this.scale = val.scale;
                     this.disabled = false;
                 } else {
+                    // this.selected = null;
                     this.disabled = true;
                 }
             },
@@ -145,13 +142,11 @@
             setAxisZ(n) {
                 this.rotation.z = parseFloat((n * Math.PI / 180).toFixed(2));
             },
-            changeMode(transform) {
-                // this.$store.state.sceneEditor.setting.transform = transform;
+            changeMode(mode) {
+                this.$editor.control.setMode(mode)
             },
             sync() {
-                // this.$store.state.sceneEditor._objects[this.handler].position = this.position;
-                // this.$store.state.sceneEditor._objects[this.handler].rotation = this.rotation;
-                // this.$store.state.sceneEditor._objects[this.handler].scale = this.scale;
+                this.$editor.render();
             }
         }
     }
