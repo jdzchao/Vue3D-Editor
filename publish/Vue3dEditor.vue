@@ -4,6 +4,7 @@
             <vue3d ref="editor" :width="width" :height="height" :config="config" :plugins="plugins"
                    @success="onSuccess">
                 <v3d-scene id="scene">
+                    <v3d-camera-perspective :width="width" :height="height" :position="{x:0,y:0,z:10}"></v3d-camera-perspective>
                     <v3d-light-rect-area :width="100" :height="100" :intensity="1"
                                          :target="{x:5,y:0,z:0}" :position="{x:0,y:0,z:10}"></v3d-light-rect-area>
                     <v3d-geom-box :material="Materials.standard()"></v3d-geom-box>
@@ -25,10 +26,11 @@
     import PanelHierarchy from "./layout/Hierarchy";
     import PanelDialog from "./layout/Dialog"
     import V3dGeomBox from "../Vue3D/packages/V3dGeomBox/V3dGeomBox";
+    import V3dCameraPerspective from "../Vue3D/packages/V3dCameraPerspective/V3dCameraPerspective";
 
     export default {
         name: "Vue3dEditor",
-        components: {V3dGeomBox, PanelHierarchy, PanelTools, PanelDialog},
+        components: {V3dCameraPerspective, V3dGeomBox, PanelHierarchy, PanelTools, PanelDialog},
         data() {
             return {
                 Materials,

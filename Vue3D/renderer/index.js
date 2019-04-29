@@ -79,8 +79,8 @@ export default class {
 
                         this.$data._$rendering = null; // 当前帧渲染完成，释放掉
 
+                        // 当 auto 为真时，进入递归循环 渲染
                         if (this.$data._$auto) {
-                            // 当 auto 为真时，进入递归循环 渲染
                             this.render();
                         }
                     })
