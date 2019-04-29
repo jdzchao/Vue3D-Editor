@@ -83,9 +83,11 @@
         methods: {
             setPlay() {
                 this.$editor.renderer.setPlay();
+                this.$editor.control.enabled = !this.play;
             },
             setPause() {
                 this.$editor.orbit.enabled = this.pause;
+                this.$editor.control.enabled = this.pause;
                 this.$editor.selected = null;
                 this.$editor.control.detach();
                 this.$editor.renderer.setPause();
