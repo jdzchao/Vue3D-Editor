@@ -9,8 +9,10 @@ const core = {
             canvas: null, // 编辑器画布
             scene: null, // 编辑器场景
             camera: null, // 编辑器像机
-            control: null, // transform control
+            renderer: null,
 
+            orbit: null,
+            control: null, // transform control
         }
     },
     methods: {
@@ -19,14 +21,15 @@ const core = {
             this.canvas = ref.$data.$_canvas;
             this.scene = ref.$data.$_scene;
             this.camera = ref.$data.$_camera;
+            this.renderer = ref.$data.renderer;
             this.camera.position.z = 10;
-            let orbit = ref.renderer.orbit_get()
+            this.orbit = ref.renderer.orbit_get();
             // set TransformControls
             this.control = new TransformControls(this.camera, this.canvas);
-            this.control.addEventListener('change', this.renderControl);
-            this.control.update = this.renderControl;
-            this.control.addEventListener('dragging-changed', function (event) {
-                orbit.enabled = !event.value;
+            this.control.addEventListener('change', this.render);
+            this.control.update = this.render;
+            this.control.addEventListener('dragging-changed', (event) => {
+                this.orbit.enabled = !event.value;
             });
             this.scene.add(this.control);
             this.$vue3d.on('capture', this.setAttach)
@@ -44,10 +47,6 @@ const core = {
                 console.error(err);
             }
 
-        },
-        renderControl() {
-            // this.control.update(); // 死循环了开始
-            this.$editor.v3d.renderer.render();
         },
         render() {
             this.v3d.renderer.render();

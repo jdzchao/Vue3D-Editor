@@ -1,11 +1,36 @@
 <template>
     <div class="hierarchy">
-        <div class="head">Hierarchy</div>
-        <div class="tree">
-<!--            <el-tree ref="tree" show-checkbox check-strictly :data="objects" @current-change="changeTarget"-->
-<!--                     :props="defaultProps" node-key="name" default-expand-all :expand-on-click-node="false"></el-tree>-->
+        <div class="head">
+            <el-button-group>
+                <el-button @click="setPlay" :type="play?'primary':'info'" size="small">
+                    <vue-icon type="stop" v-if="play"></vue-icon>
+                    <vue-icon type="play" v-else></vue-icon>
+                </el-button>
+                <el-button @click="setPause" :type="pause?'primary':'info'" size="small">
+                    <vue-icon type="pause"></vue-icon>
+                </el-button>
+            </el-button-group>
+            <el-select v-model="scene" placeholder="请选择" size="medium">
+                <!--                <el-option-->
+                <!--                        v-for="item in options"-->
+                <!--                        :key="item.value"-->
+                <!--                        :label="item.label"-->
+                <!--                        :value="item.value"-->
+                <!--                        :disabled="item.disabled">-->
+                <!--                </el-option>-->
+            </el-select>
+            <el-button type="success" size="small">
+                <vue-icon type="add"></vue-icon>
+            </el-button>
+            <!--<el-button type="primary" @click="preview">预览</el-button>-->
+
+
         </div>
-        <div class="menu">
+        <div class="tree">
+            <!--            <el-tree ref="tree" show-checkbox check-strictly :data="objects" @current-change="changeTarget"-->
+            <!--                     :props="defaultProps" node-key="name" default-expand-all :expand-on-click-node="false"></el-tree>-->
+        </div>
+        <div class="foot">
             <el-button-group class="btn-l">
                 <el-button @click="appendSelected" size="small">
                     <vue-icon type="add"></vue-icon>
@@ -35,71 +60,44 @@
         components: {ItemHierarchy},
         data() {
             return {
+                scene: '',
                 activeIndex: '1',
                 activeIndex2: '1',
                 save_text: '保存', // 保存 OR 保存中
                 save_keep: false,
-                objects: [{
-                    id: 1,
-                    label: '一级 2',
-                    children: [{
-                            id: 3,
-                            label: '二级 2-1',
-                            children: [{
-                                id: 4,
-                                label: '三级 3-1-1'
-                            }, {
-                                id: 5,
-                                label: '三级 3-1-2',
-                                disabled: true
-                            },{
-                                id: 5,
-                                label: '三级 3-1-2',
-                                disabled: true
-                            },{
-                                id: 5,
-                                label: '三级 3-1-2',
-                                disabled: true
-                            },{
-                                id: 5,
-                                label: '三级 3-1-2',
-                                disabled: true
-                            },{
-                                id: 5,
-                                label: '三级 3-1-2',
-                                disabled: true
-                            },{
-                                id: 5,
-                                label: '三级 3-1-2',
-                                disabled: true
-                            },{
-                                id: 5,
-                                label: '三级 3-1-2',
-                                disabled: true
-                            },{
-                                id: 5,
-                                label: '三级 3-1-2',
-                                disabled: true
-                            },{
-                                id: 5,
-                                label: '三级 3-1-2',
-                                disabled: true
-                            }]
-                    }, {
-                        id: 2,
-                        label: '二级 2-2',
-                        disabled: true,
-                        children: [{
-                            id: 6,
-                            label: '三级 3-2-1'
-                        }, {
-                            id: 7,
-                            label: '三级 3-2-2',
-                            disabled: true
-                        }]
-                    }]
-                }],
+                objects: [],
             };
+        },
+        computed: {
+            play: {
+                get() {
+                    return this.$editor.renderer.getPlay()
+                }
+            },
+            pause: {
+                get() {
+                    return this.$editor.renderer.getPause()
+                }
+            }
+        },
+        methods: {
+            setPlay() {
+                this.$editor.renderer.setPlay();
+            },
+            setPause() {
+                this.$editor.orbit.enabled = this.pause;
+                this.$editor.selected = null;
+                this.$editor.control.detach();
+                this.$editor.renderer.setPause();
+            },
+            appendSelected() {
+            },
+            removeSelected() {
+            },
+            freeSelected() {
+            },
+            save() {
+            }
         }
     }
 </script>
@@ -107,16 +105,15 @@
 <style scoped>
     .hierarchy {
         width: 100%;
-        height: 380px;
+        height: 400px;
         position: relative;
     }
 
-    .title{
-        height: 28px;
-        line-height: 28px;
-        background-color: #545C64;
+    .head {
+        height: 36px;
+        padding: 2px;
         text-align: center;
-        color: #ffffff;
+        vertical-align: center;
     }
 
     .tree {
@@ -126,6 +123,7 @@
     }
 
     .tree::-webkit-scrollbar-track {
+        display: none;
         -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
         background-color: #F5F5F5;
     }
@@ -139,24 +137,16 @@
         background-color: #545c64;
     }
 
-    .menu {
-        height: 39px;
+    .foot {
+        height: 36px;
+        padding: 2px;
     }
 
-    .btn-l {
+    .foot > .btn-l {
         float: left;
-        margin: 2px 2px 1px 2px;
     }
 
-    .btn-r {
+    .foot > .btn-r {
         float: right;
-        margin: 2px 2px 1px 2px;
-    }
-
-    .el-divider {
-        position: absolute;
-        top: 0;
-        margin: 0;
-        z-index: 99;
     }
 </style>

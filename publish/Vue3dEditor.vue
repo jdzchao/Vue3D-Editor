@@ -6,7 +6,8 @@
                 <v3d-scene id="scene">
                     <v3d-light-rect-area :width="100" :height="100" :intensity="1"
                                          :target="{x:5,y:0,z:0}" :position="{x:0,y:0,z:10}"></v3d-light-rect-area>
-                    <v3d-loader-obj path="/models/obj/Cerberus.obj" :material="Materials.standard()"></v3d-loader-obj>
+                    <v3d-geom-box :material="Materials.standard()"></v3d-geom-box>
+                    <!--                    <v3d-loader-obj path="/models/obj/Cerberus.obj" :material="Materials.standard()"></v3d-loader-obj>-->
                 </v3d-scene>
             </vue3d>
         </div>
@@ -19,29 +20,15 @@
 </template>
 
 <script>
-    import PanelTools from "./layout/Tools"
-    import PanelDialog from "./layout/Dialog"
     import {Materials} from 'vue3d'
-    import PanelHierarchy from "@edt/layout/Hierarchy";
-    // import V3dLightAmbient from "../Vue3D/packages/V3dLightAmbient/V3dLightAmbient";
-    // import V3dLightRectArea from "../Vue3D/packages/V3dLightRectArea/V3dLightRectArea";
-    // import V3dGeomBox from "../Vue3D/packages/V3dGeomBox/V3dGeomBox";
-    // import V3dScene from "../Vue3D/packages/V3dScene/V3dScene";
-    // import Vue3d from "../Vue3D/packages/Vue3d/Vue3d";
-    // import V3dLoaderObj from "../Vue3D/packages/V3dLoaderObj/V3dLoaderObj";
+    import PanelTools from "./layout/Tools"
+    import PanelHierarchy from "./layout/Hierarchy";
+    import PanelDialog from "./layout/Dialog"
+    import V3dGeomBox from "../Vue3D/packages/V3dGeomBox/V3dGeomBox";
 
     export default {
         name: "Vue3dEditor",
-        components: {
-            PanelHierarchy,
-            // V3dLoaderObj,
-            // Vue3d,
-            // V3dScene,
-            // V3dGeomBox,
-            // V3dLightRectArea,
-            // V3dLightAmbient,
-            PanelTools, PanelDialog
-        },
+        components: {V3dGeomBox, PanelHierarchy, PanelTools, PanelDialog},
         data() {
             return {
                 Materials,
