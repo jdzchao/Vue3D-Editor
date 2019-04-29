@@ -2,20 +2,27 @@
     <div class="tools">
         <!--        <panel-hierarchy></panel-hierarchy>-->
         <el-tabs type="border-card" class="tabs">
-            <el-tab-pane class="panel" :lazy="true">
-                <span slot="label"><icon-font class="el-icon-date"></icon-font></span>
-                <component is="V3deTransform"></component>
+            <el-tab-pane>
+                <span slot="label">
+                    <vue-icon type="transform"></vue-icon></span>
+                <v3de-transform></v3de-transform>
+            </el-tab-pane>
+            <el-tab-pane>
+                <span slot="label">
+                    <vue-icon type="materials"></vue-icon></span>
+                <v3de-materials></v3de-materials>
             </el-tab-pane>
         </el-tabs>
     </div>
 </template>
 
 <script>
-    import V3deTransform from "@edt/components/V3deTransform";
+    import V3deTransform from "../components/V3deTransform";
+    import V3deMaterials from "../components/V3deMaterials";
 
     export default {
         name: "PanelTools",
-        components: {V3deTransform}
+        components: {V3deMaterials, V3deTransform}
     }
 </script>
 <style scoped>
@@ -34,6 +41,7 @@
     .tabs > .el-tabs__content {
         overflow-y: scroll;
         height: calc(100% - 69px);
+        padding: 0
     }
 
     .tabs > .el-tabs__content::-webkit-scrollbar-track {

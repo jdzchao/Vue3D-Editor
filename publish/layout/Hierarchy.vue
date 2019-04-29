@@ -8,19 +8,19 @@
         <div class="menu">
             <el-button-group class="btn-l">
                 <el-button @click="appendSelected" size="small">
-                    <icon-font type="add"></icon-font>
+                    <vue-icon type="add"></vue-icon>
                 </el-button>
                 <el-button @click="removeSelected" size="small">
-                    <icon-font type="subtract"></icon-font>
+                    <vue-icon type="subtract"></vue-icon>
                 </el-button>
                 <el-button @click="freeSelected" size="small">
-                    <icon-font type="free"></icon-font>
+                    <vue-icon type="free"></vue-icon>
                 </el-button>
             </el-button-group>
             <el-button-group class="btn-r">
                 <!--<el-button type="primary" @click="preview">预览</el-button>-->
                 <el-button @click="save" size="small" type="primary" :disabled="save_keep">
-                    <icon-font type="start"></icon-font>
+                    <vue-icon type="start"></vue-icon>
                 </el-button>
             </el-button-group>
         </div>

@@ -7,7 +7,6 @@ import Vue3D from '../Vue3D'
 // CSS
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 import 'element-ui/lib/theme-chalk/index.css'
-import '@/assets/icon-font' //icon font
 
 // Vue preset
 Vue.use(Vue3D)

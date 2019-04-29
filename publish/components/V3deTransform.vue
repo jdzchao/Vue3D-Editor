@@ -1,21 +1,24 @@
 <template>
-    <div>
-
+    <div id="v3de-transform">
+        <div class="title">
+            <vue-icon type="panel"></vue-icon>
+            TRANSFORM
+        </div>
         <div class="buttons">
             <el-button-group>
                 <el-button @click="reset" :disabled="disabled">
-                    <icon-font type="reset"></icon-font>
+                    <vue-icon type="reset"></vue-icon>
                 </el-button>
             </el-button-group>
             <el-radio-group v-model="mode" @change="changeMode" style="float:right">
                 <el-radio-button label="translate" :disabled="disabled">
-                    <icon-font type="translate"></icon-font>
+                    <vue-icon type="translate"></vue-icon>
                 </el-radio-button>
                 <el-radio-button label="rotate" :disabled="disabled">
-                    <icon-font type="rotation"></icon-font>
+                    <vue-icon type="rotation"></vue-icon>
                 </el-radio-button>
                 <el-radio-button label="scale" :disabled="disabled">
-                    <icon-font type="scale"></icon-font>
+                    <vue-icon type="scale"></vue-icon>
                 </el-radio-button>
             </el-radio-group>
         </div>
@@ -153,9 +156,16 @@
 </script>
 
 <style scoped>
-    #item-transform {
+    #v3de-transform {
         position: relative;
         width: 100%;
+    }
+
+    .title {
+        width: 100%;
+        height: 50px;
+        line-height: 30px;
+        color: #666666;
     }
 
     .buttons {
@@ -192,7 +202,7 @@
     }
 </style>
 <style>
-    #item-transform .el-input-number.is-controls-right .el-input__inner {
+    #v3de-transform .el-input-number.is-controls-right .el-input__inner {
         padding-left: 5px;
         padding-right: 35px;
     }

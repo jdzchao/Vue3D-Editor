@@ -1,8 +1,10 @@
 <template>
-    <i :class="`iconfont icon-${type}`" :style="styles"></i>
+    <i :class="`vue3d-icon vue3d-${type}`" :style="styles"></i>
 </template>
 
 <script>
+    import "../../assets/vue-icon/iconfont.css"
+
     export default {
         name: 'IconFont',
         props: {
@@ -29,7 +31,3 @@
         }
     }
 </script>
-
-<style>
-
-</style>
