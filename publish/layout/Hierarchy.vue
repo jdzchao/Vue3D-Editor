@@ -71,7 +71,7 @@
         computed: {
             play: {
                 get() {
-                    return this.$editor.renderer.getPlay()
+                    return this.$editor.v3d.getPlay()
                 }
             },
             pause: {
@@ -82,7 +82,7 @@
         },
         methods: {
             setPlay() {
-                this.$editor.renderer.setPlay();
+                this.$editor.v3d.setPlay();
                 this.$editor.control.enabled = !this.play;
             },
             setPause() {

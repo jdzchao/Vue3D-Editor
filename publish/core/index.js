@@ -49,7 +49,7 @@ const core = {
 
         },
         render() {
-            this.v3d.renderer.render();
+            this.renderer.render();
         }
     }
 }

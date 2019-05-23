@@ -14,7 +14,7 @@
     "qiniu-js": "^2.5.4",
     "three": "0.104.0",
     "vue": "^2.6.10",
-    "vue3d": "^0.7.3"
+    "vue3d": "^0.7.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.6.0",
