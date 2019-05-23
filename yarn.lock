@@ -7362,10 +7362,10 @@ thread-loader@^2.1.2:
     loader-utils "^1.1.0"
     neo-async "^2.6.0"
 
-three@0.103.0, three@^0.103.0:
-  version "0.103.0"
-  resolved "https://registry.yarnpkg.com/three/-/three-0.103.0.tgz#63b3dbccc861caad93269618061a73dadebae71b"
-  integrity sha512-4WKRHTMt96sp+lX+Hx/eHtN9CWFyejDqr1ikgxZUJIkKEHVglSE7FY8n81NC6yWXqVSjUIQQppaxsoUe26Zi9g==
+three@0.104.0, three@^0.104.0:
+  version "0.104.0"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.104.0.tgz#9ad1da492153b753a89e0df066631215bd9d9087"
+  integrity sha512-q617IMBC5k40U2E9UC4/LtmhzTOOLB1jGMIooUL+QrhZ7abiGCSDrKrpCDt9V8RTl6xw+0FYfA1PYsIPKbQOgg==
 
 throttle-debounce@^1.0.1:
   version "1.1.0"
@@ -7806,12 +7806,12 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
-vue3d@^0.6.10:
-  version "0.6.10"
-  resolved "https://registry.yarnpkg.com/vue3d/-/vue3d-0.6.10.tgz#9eab9e2a6916c54dd485667544c06a901b858eb2"
-  integrity sha512-i1l+1ALs/AWtoPykxMtIPqPqDuIKA7PRbpx7H49BlUu1Pm3W6YVI+siplkbUA/K/h0Qh+ZxiPjdwlR/YUuFQvA==
+vue3d@^0.7.3:
+  version "0.7.3"
+  resolved "https://registry.yarnpkg.com/vue3d/-/vue3d-0.7.3.tgz#c5eac478a3bc7d026682756745fd38a0f0be6052"
+  integrity sha512-c3LvymDWRez++p5NIiJOpiKfqFi0/gZ7AhPXJSqIpkTObRcn+pzGVxKeNbanTBEKVyp7hrQgJ6c5YP9UF82dTQ==
   dependencies:
-    three "^0.103.0"
+    three "^0.104.0"
 
 vue@^2.6.10:
   version "2.6.10"

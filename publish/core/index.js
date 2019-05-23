@@ -23,13 +23,13 @@ const core = {
             this.camera = ref.$data.$_camera;
             this.renderer = ref.$data.renderer;
             this.camera.position.z = 10;
-            this.orbit = ref.renderer.orbit_get();
+            this.orbit = ref.orbit;
             // set TransformControls
             this.control = new TransformControls(this.camera, this.canvas);
             this.control.addEventListener('change', this.render);
             this.control.update = this.render;
             this.control.addEventListener('dragging-changed', (event) => {
-                this.orbit.enabled = !event.value;
+                this.orbit.control.enabled = !event.value;
             });
             this.scene.add(this.control);
             this.$vue3d.on('capture', this.setAttach)
