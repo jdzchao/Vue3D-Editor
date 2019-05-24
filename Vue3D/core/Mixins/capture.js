@@ -95,9 +95,11 @@ export default {
                         this.emit('capture', target);
                         return;
                     }
+                    this.captured = null;
                     this.emit('capture', null);
                 });
             } else {
+                this.captured = null;
                 this.emit('capture', null);
             }
         }

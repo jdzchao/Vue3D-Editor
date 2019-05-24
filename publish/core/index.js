@@ -5,7 +5,7 @@ const core = {
     data() {
         return {
             v3d: null,
-            selected: null,
+
             canvas: null, // 编辑器画布
             scene: null, // 编辑器场景
             camera: null, // 编辑器像机
@@ -13,6 +13,16 @@ const core = {
 
             orbit: null,
             control: null, // transform control
+        }
+    },
+    computed: {
+        selected: {
+            get() {
+                return this.v3d.capture_get();
+            },
+            set(obj) {
+                return this.v3d.capture_set(obj)
+            }
         }
     },
     methods: {
@@ -46,7 +56,6 @@ const core = {
             } catch (err) {
                 console.error(err);
             }
-
         },
         render() {
             this.renderer.render();

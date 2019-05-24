@@ -1,5 +1,6 @@
 <template>
     <div class="hierarchy">
+
         <div class="head">
             <el-button-group>
                 <el-button @click="setPlay" :type="play?'primary':'info'" size="small">
@@ -10,26 +11,33 @@
                     <vue-icon type="pause"></vue-icon>
                 </el-button>
             </el-button-group>
-            <el-select v-model="scene" placeholder="请选择" size="medium">
-                <!--                <el-option-->
-                <!--                        v-for="item in options"-->
-                <!--                        :key="item.value"-->
-                <!--                        :label="item.label"-->
-                <!--                        :value="item.value"-->
-                <!--                        :disabled="item.disabled">-->
-                <!--                </el-option>-->
-            </el-select>
-            <el-button type="success" size="small">
-                <vue-icon type="add"></vue-icon>
-            </el-button>
-            <!--<el-button type="primary" @click="preview">预览</el-button>-->
-
-
+            <el-button-group>
+                <el-select v-model="scene" placeholder="请选择" size="medium">
+                    <el-option v-for="item,index in scenes" :key="item.uuid"
+                               :label="item.name"
+                               :value="index">
+                    </el-option>
+                </el-select>
+            </el-button-group>
+            <el-button-group>
+                <el-button type="success" size="small">
+                    <vue-icon type="add"></vue-icon>
+                </el-button>
+            </el-button-group>
         </div>
+
         <div class="tree">
-            <!--            <el-tree ref="tree" show-checkbox check-strictly :data="objects" @current-change="changeTarget"-->
-            <!--                     :props="defaultProps" node-key="name" default-expand-all :expand-on-click-node="false"></el-tree>-->
+            <el-tree ref="tree"
+                     :data="objects"
+                     :props="defaultProps"
+                     :expand-on-click-node="false"
+                     :highlight-current="true"
+                     @current-change="changeTarget"
+                     node-key="uuid"
+                     default-expand-all>
+            </el-tree>
         </div>
+
         <div class="foot">
             <el-button-group class="btn-l">
                 <el-button @click="appendSelected" size="small">
@@ -53,36 +61,67 @@
 </template>
 
 <script>
-    import ItemHierarchy from "../components/ItemHierarchy";
 
     export default {
         name: "PanelHierarchy",
-        components: {ItemHierarchy},
         data() {
             return {
-                scene: '',
-                activeIndex: '1',
-                activeIndex2: '1',
                 save_text: '保存', // 保存 OR 保存中
                 save_keep: false,
-                objects: [],
+                defaultProps: {
+                    children: 'children',
+                    label: 'type'
+                },
             };
         },
         computed: {
             play: {
                 get() {
-                    return this.$editor.v3d.getPlay()
+                    return this.$editor.v3d.play
                 }
             },
             pause: {
                 get() {
                     return this.$editor.renderer.getPause()
                 }
+            },
+            scenes: {
+                get() {
+                    return this.$editor.v3d.scenes.manager;
+                }
+            },
+            scene: {
+                get() {
+                    return this.$editor.v3d.scenes.activated;
+                },
+                set(val) {
+                    return this.$editor.v3d.scenes.activated = val;
+                }
+            },
+            objects: {
+                get() {
+                    if (this.scene != null) {
+                        return this.scenes[this.scene].children
+                    } else {
+                        return []
+                    }
+                }
             }
+        },
+        watch: {
+            "$editor.v3d.captured"(val) {
+                if (val) {
+                    this.$refs.tree.setCurrentKey(val.uuid);
+                    this.$refs.tree.setCheckedKeys([val.uuid]);
+                } else {
+                    this.$refs.tree.setCurrentKey(null);
+                    this.$refs.tree.setCheckedKeys([]);
+                }
+            },
         },
         methods: {
             setPlay() {
-                this.$editor.v3d.setPlay();
+                this.$editor.v3d.play = !this.$editor.v3d.play;
                 this.$editor.control.enabled = !this.play;
             },
             setPause() {
@@ -99,7 +138,15 @@
             freeSelected() {
             },
             save() {
-            }
+            },
+            changeTarget(obj) {
+                if (obj) {
+                    this.$vue3d.emit('capture', obj)
+                } else {
+                    this.$vue3d.emit('capture', null)
+                }
+            },
+
         }
     }
 </script>
