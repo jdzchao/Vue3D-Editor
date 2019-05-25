@@ -65,7 +65,6 @@
         name: "V3deTransform",
         data() {
             return {
-                disabled: true,
                 handler: '',
                 position: {x: 0, y: 0, z: 0},
                 rotation: {x: 0, y: 0, z: 0},
@@ -79,6 +78,15 @@
             this.selected = this.$editor.selected;
             this.mode = this.$editor.control.mode;
         },
+        computed: {
+            disabled: {
+                get() {
+                    return this.$editor.selected === null;
+                },
+                set() {
+                }
+            }
+        },
         watch: {
             "$editor.selected"(val) {
                 if (val) {
@@ -87,10 +95,6 @@
                     this.position = val.position;
                     this.rotation = val.rotation;
                     this.scale = val.scale;
-                    this.disabled = false;
-                } else {
-                    // this.selected = null;
-                    this.disabled = true;
                 }
             },
             position: {

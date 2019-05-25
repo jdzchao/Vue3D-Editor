@@ -70,7 +70,7 @@
                 save_keep: false,
                 defaultProps: {
                     children: 'children',
-                    label: 'type'
+                    label: 'name'
                 },
             };
         },
@@ -108,16 +108,8 @@
                 }
             }
         },
-        watch: {
-            "$editor.v3d.captured"(val) {
-                if (val) {
-                    this.$refs.tree.setCurrentKey(val.uuid);
-                    this.$refs.tree.setCheckedKeys([val.uuid]);
-                } else {
-                    this.$refs.tree.setCurrentKey(null);
-                    this.$refs.tree.setCheckedKeys([]);
-                }
-            },
+        mounted() {
+            this.$vue3d.on('capture', this.captured);
         },
         methods: {
             setPlay() {
@@ -136,15 +128,20 @@
             removeSelected() {
             },
             freeSelected() {
+                this.$editor.v3d.capture_set(null)
             },
             save() {
             },
-            changeTarget(obj) {
+            captured(editor, obj) {
                 if (obj) {
-                    this.$vue3d.emit('capture', obj)
+                    this.$refs.tree.setCurrentKey(obj.uuid);
+                    // this.$refs.tree.setCheckedKeys([obj.uuid]);
                 } else {
-                    this.$vue3d.emit('capture', null)
+                    this.$refs.tree.setCurrentKey(null);
                 }
+            },
+            changeTarget(obj) {
+                this.$editor.v3d.capture_set(obj)
             },
 
         }

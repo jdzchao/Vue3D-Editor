@@ -18,6 +18,7 @@ const core = {
     computed: {
         selected: {
             get() {
+                if (this.v3d.renderer.getPause()) return null;
                 return this.v3d.capture_get();
             },
             set(obj) {
@@ -42,15 +43,13 @@ const core = {
                 this.orbit.control.enabled = !event.value;
             });
             this.scene.add(this.control);
-            this.$vue3d.on('capture', this.setAttach)
+            this.$vue3d.on('capture', this.setAttach);
         },
         setAttach(editor, obj) {
             try {
                 if (obj) {
-                    this.selected = obj.object;
-                    this.control.attach(obj.object);
+                    this.control.attach(obj);
                 } else {
-                    this.selected = null;
                     this.control.detach();
                 }
             } catch (err) {

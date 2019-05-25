@@ -35,7 +35,7 @@ class Renderer {
             this._rendering = null; // 当前帧渲染完成，释放
 
             if (this._auto) {
-                this.render();
+                this.render(callback);
             }
         })
     }
