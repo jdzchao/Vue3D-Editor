@@ -82,7 +82,7 @@
             },
             pause: {
                 get() {
-                    return this.$editor.renderer.getPause()
+                    return this.$editor.renderer.pause
                 }
             },
             scenes: {
@@ -95,7 +95,8 @@
                     return this.$editor.v3d.scenes.activated;
                 },
                 set(val) {
-                    return this.$editor.v3d.scenes.activated = val;
+                    this.$editor.v3d.scenes.change(val);
+                    this.$editor.v3d.render();
                 }
             },
             objects: {
@@ -121,7 +122,7 @@
                 this.$editor.control.enabled = this.pause;
                 this.$editor.selected = null;
                 this.$editor.control.detach();
-                this.$editor.renderer.setPause();
+                this.$editor.renderer.pause = this.pause;
             },
             appendSelected() {
             },

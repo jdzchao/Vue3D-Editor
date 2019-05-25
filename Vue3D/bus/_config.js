@@ -26,5 +26,4 @@ export default {
         colorCenterLine: 'rgb(136,136,136)',
         colorGrid: 'rgb(68,68,68)',
     },
-
 }

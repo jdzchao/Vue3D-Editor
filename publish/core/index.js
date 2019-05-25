@@ -18,7 +18,7 @@ const core = {
     computed: {
         selected: {
             get() {
-                if (this.v3d.renderer.getPause()) return null;
+                if (this.v3d.renderer.pause) return null;
                 return this.v3d.capture_get();
             },
             set(obj) {
