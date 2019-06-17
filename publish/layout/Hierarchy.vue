@@ -118,11 +118,10 @@
                 this.$editor.control.enabled = !this.play;
             },
             setPause() {
+                console.log(this.pause)
                 this.$editor.orbit.enabled = this.pause;
                 this.$editor.control.enabled = this.pause;
-                this.$editor.selected = null;
-                this.$editor.control.detach();
-                this.$editor.renderer.pause = this.pause;
+                this.$editor.renderer.pause = !this.pause;
             },
             appendSelected() {
             },
