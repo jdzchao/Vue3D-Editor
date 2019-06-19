@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import {TransformControls} from '../utils/TransformControls'
+import {TransformControls} from 'three/examples/jsm/controls/TransformControls'
 
 const core = {
     data() {

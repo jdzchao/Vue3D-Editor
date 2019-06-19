@@ -12,11 +12,12 @@
                 </el-button>
             </el-button-group>
             <el-button-group>
-                <el-select v-model="scene" placeholder="请选择" size="medium">
-                    <el-option v-for="item,index in scenes" :key="item.uuid"
+                <el-select v-model="scene" placeholder="请选择" size="medium" @change="changeScene">
+                    <el-option v-for="item,index in scenes"
+                               :key="item.uuid"
                                :label="item.name"
-                               :value="index">
-                    </el-option>
+                               :value="index"
+                    ></el-option>
                 </el-select>
             </el-button-group>
             <el-button-group>
@@ -87,15 +88,15 @@
             },
             scenes: {
                 get() {
-                    return this.$editor.v3d.scenes.manager;
+                    return this.$editor.v3d.scenes.manager
                 }
             },
             scene: {
                 get() {
-                    return this.$editor.v3d.scenes.activated;
+                    return this.$editor.v3d.scenes.activated
                 },
                 set(val) {
-                    this.$editor.v3d.scenes.change(val);
+                    this.$editor.v3d.scenes.change(val)
                     this.$editor.v3d.render();
                 }
             },
@@ -110,18 +111,17 @@
             }
         },
         mounted() {
-            this.$vue3d.on('capture', this.captured);
+            this.$vue3d.on('capture', this.captured)
         },
         methods: {
             setPlay() {
-                this.$editor.v3d.play = !this.$editor.v3d.play;
-                this.$editor.control.enabled = !this.play;
+                this.$editor.v3d.play = !this.$editor.v3d.play
+                this.$editor.control.enabled = !this.play
             },
             setPause() {
-                console.log(this.pause)
-                this.$editor.orbit.enabled = this.pause;
-                this.$editor.control.enabled = this.pause;
-                this.$editor.renderer.pause = !this.pause;
+                this.$editor.orbit.enabled = this.pause
+                this.$editor.control.enabled = this.pause
+                this.$editor.renderer.pause = !this.pause
             },
             appendSelected() {
             },
@@ -129,21 +129,23 @@
             },
             freeSelected() {
                 this.$editor.v3d.capture_set(null)
+                this.$refs.tree.setCurrentKey(null)
             },
             save() {
             },
             captured(editor, obj) {
                 if (obj) {
-                    this.$refs.tree.setCurrentKey(obj.uuid);
-                    // this.$refs.tree.setCheckedKeys([obj.uuid]);
+                    this.$refs.tree.setCurrentKey(obj.uuid)
                 } else {
-                    this.$refs.tree.setCurrentKey(null);
+                    this.$refs.tree.setCurrentKey(null)
                 }
             },
             changeTarget(obj) {
                 this.$editor.v3d.capture_set(obj)
             },
-
+            changeScene(scene) {
+                this.$editor.v3d.capture_set(null)
+            }
         }
     }
 </script>
