@@ -93,7 +93,7 @@
             },
             scene: {
                 get() {
-                    return this.$editor.v3d.scenes.activated
+                    return this.$editor.v3d.scenes.activated()
                 },
                 set(val) {
                     this.$editor.v3d.scenes.change(val)

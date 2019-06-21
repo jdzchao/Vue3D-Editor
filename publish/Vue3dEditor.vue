@@ -19,6 +19,8 @@
                     <v3d-geom-cylinder :material="Materials.standard()"></v3d-geom-cylinder>
                     <!--                    <v3d-loader-obj path="/models/obj/Cerberus.obj" :material="Materials.standard()"></v3d-loader-obj>-->
                 </v3d-scene>
+                <box-helper></box-helper>
+                <grid-helper></grid-helper>
             </vue3d>
         </div>
         <div class="side-bar" v-if="load">
@@ -37,10 +39,15 @@
     import V3dGeomBox from "../Vue3D/packages/V3dGeomBox/V3dGeomBox";
     import V3dCameraPerspective from "../Vue3D/packages/V3dCameraPerspective/V3dCameraPerspective";
     import V3dGeomCylinder from "../Vue3D/packages/V3dGeomCylinder/V3dGeomCylinder";
+    import BoxHelper from "@edt/core/Plugins/BoxHelper";
+    import GridHelper from "@edt/core/Plugins/GridHelper";
 
     export default {
         name: "Vue3dEditor",
-        components: {V3dGeomCylinder, V3dCameraPerspective, V3dGeomBox, PanelHierarchy, PanelTools, PanelDialog},
+        components: {
+            GridHelper,
+            BoxHelper,
+            V3dGeomCylinder, V3dCameraPerspective, V3dGeomBox, PanelHierarchy, PanelTools, PanelDialog},
         data() {
             return {
                 Materials,

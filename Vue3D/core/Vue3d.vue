@@ -2,8 +2,6 @@
     <canvas :id="id">
         <template v-if="slot">
             <slot></slot>
-            <box-helper v-bind="conf.box" v-if="plugins.box"></box-helper>
-            <grid-helper v-bind="conf.grid" v-if="plugins.grid"></grid-helper>
         </template>
         Sorry, your web browser does not support WebGL
     </canvas>
@@ -11,60 +9,39 @@
 
 <script>
     import * as THREE from 'three/src/Three'
-    import Bus from "../bus"
-    // Plugins
-    import BoxHelper from "./Plugins/BoxHelper"
-    import GridHelper from "./Plugins/GridHelper"
+    import config from './config'
     // Mixins
     import event from "./Mixins/event"
-    import capture from "./Mixins/capture"
+    import plugins from "./Mixins/plugins"
     // Libraries
     import Renderer from "./Libraries/renderer"
-    import Orbit from "./Libraries/orbit";
     import ScenesManager from "./Libraries/scenes";
+    import Orbit from "./Libraries/orbit";
 
     export default {
         name: "Vue3d",
-        components: {
-            BoxHelper,
-            GridHelper,
-        },
-        mixins: [capture, event],
+        extends: config,
+        mixins: [event, plugins],
         props: {
             id: {type: String, default: 'Vue3D'},
             width: {type: Number, required: true},
             height: {type: Number, required: true},
             ratio: {type: Number, default: 1},
-
-            // Vue3d Configs Object
-            config: {type: Object},
-
-            // plugins components
-            plugins: {
-                type: Object, default() {
-                    return {
-                        box: false,
-                        grid: false,
-                    }
-                }
-            }
         },
         data() {
             return {
                 /* Vue3D Base Component */
-                $_canvas: null, // canvas dom
+                $_canvas: null, // _canvas dom
                 $_scene: null, // Base Scene
                 $_camera: null, // Base Camera
                 /* status */
-                slot: false,
                 $_play: false,
                 $_status: 'awake',
+                slot: false,
                 /* libraries */
                 renderer: null, // renderer
                 orbit: null, // orbit control
-                scenes: null, // scenes manager
-                /* config */
-                conf: null,
+                scenes: null, // _scenes manager
                 background: null,
             }
         },
@@ -77,7 +54,7 @@
                     this.$data.$_play = val;
                     this.orbit.enabled = !val;
                     if (val) {
-                        this.renderer.setActive(this.active_scene(), this.active_scene().arrayCamera);
+                        this.renderer.setActive(this.activated_scene(), this.activated_scene().arrayCamera);
                     } else {
                         this.renderer.setActive(this.$data.$_scene, this.$data.$_camera);
                     }
@@ -98,11 +75,10 @@
             }
         },
         mounted() {
-            this.conf = Bus.setConf(this.config); // 加载配置文件
             // 初始化基础组件
             this.$data.$_canvas = this.$el;
             this.$data.$_scene = new THREE.Scene();
-            this.$data.$_camera = new THREE.PerspectiveCamera(70, this.width / this.height, 0.1, 5000);
+            this.$data.$_camera = new THREE.PerspectiveCamera(this.conf.camera.fov, this.width / this.height, this.conf.camera.near, this.conf.camera.far);
             this.$data.$_scene.add(this.$data.$_camera);
             // 设置ID
             this.$data.$_scene.name = this.id;
@@ -111,16 +87,15 @@
             this.renderer = new Renderer(this.$data.$_canvas, this.conf.renderer);
             // 初始化 Scenes Manager
             this.scenes = new ScenesManager(this.$data.$_scene);
-            // 初始化 Libraries
+            // 初始化 Orbit Controller
             this.orbit = new Orbit(this.$data.$_camera, this.$data.$_canvas);
-            this.orbit.control.addEventListener('change', this.orbit_change, false);
+            this.orbit.control.addEventListener('change', this.render, false);
             // 渲染第一帧
             this.renderer.setActive(this.$data.$_scene, this.$data.$_camera).render(() => {
                 this.slot = true;
                 this.status = 'start';
                 this.$emit('success');
             });
-            console.log(this.$data.$_scene);
         },
         methods: {
             /**
@@ -140,7 +115,7 @@
             render(callback) {
                 this.renderer.render(() => {
                     this.status = 'render';
-                    callback && callback();
+                    if (typeof callback === "function") callback();
                     this.emit("update"); // 向组件发送更新指令
                 });
             },
@@ -156,8 +131,8 @@
              * 获取当前激活的场景
              * @returns {never|*|Scene}
              */
-            active_scene() {
-                return this.scenes.active()
+            activated_scene() {
+                return this.scenes.activated()
             },
             /**
              * 重置窗口大小
@@ -168,15 +143,6 @@
                 this.renderer.setPixelRatio(this.ratio);
                 // this.renderer.setActive(this.$data.$_scene, this.$data.$_camera);
                 this.render();
-            },
-            /**
-             * orbit control on change event
-             */
-            orbit_change() {
-                if (this.play) return;
-                this.render(() => {
-                    this.orbit.update();
-                });
             },
         },
         watch: {
