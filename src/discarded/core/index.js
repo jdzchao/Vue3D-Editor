@@ -4,8 +4,6 @@ import {TransformControls} from 'three/examples/jsm/controls/TransformControls'
 const core = {
     data() {
         return {
-            v3d: null,
-
             canvas: null, // 编辑器画布
             scene: null, // 编辑器场景
             camera: null, // 编辑器像机
@@ -18,17 +16,17 @@ const core = {
     computed: {
         selected: {
             get() {
-                if (this.v3d.renderer.pause) return null;
-                return this.v3d.capture_get();
+                if (this.$v3d.renderer.pause) return null;
+                return this.$v3d.capture_get();
             },
             set(obj) {
-                return this.v3d.capture_set(obj)
+                return this.$v3d.capture_set(obj)
             }
         }
     },
     methods: {
         init(ref) {
-            this.v3d = ref;
+            Vue.prototype.$v3d = ref;
             this.canvas = ref.$data.$_canvas;
             this.scene = ref.$data.$_scene;
             this.camera = ref.$data.$_camera;

@@ -12,7 +12,7 @@
                 </el-button>
             </el-button-group>
             <el-button-group>
-                <el-select v-model="scene" placeholder="请选择" size="medium" @change="changeScene">
+                <el-select v-model="scene" size="medium" @change="changeScene">
                     <el-option v-for="item,index in scenes"
                                :key="item.uuid"
                                :label="item.name"
@@ -78,7 +78,7 @@
         computed: {
             play: {
                 get() {
-                    return this.$editor.v3d.play
+                    return this.$editor.core.play
                 }
             },
             pause: {
@@ -88,21 +88,21 @@
             },
             scenes: {
                 get() {
-                    return this.$editor.v3d.scenes.manager
+                    return this.$editor.core.scenes.manager
                 }
             },
             scene: {
                 get() {
-                    return this.$editor.v3d.scenes.activated()
+                    return this.$editor.core.scenes.index
                 },
                 set(val) {
-                    this.$editor.v3d.scenes.change(val)
-                    this.$editor.v3d.render();
+                    this.$editor.core.scenes.change(val)
+                    this.$editor.core.render();
                 }
             },
             objects: {
                 get() {
-                    if (this.scene != null) {
+                    if (this.scenes.length > 0) {
                         return this.scenes[this.scene].children
                     } else {
                         return []
@@ -115,7 +115,7 @@
         },
         methods: {
             setPlay() {
-                this.$editor.v3d.play = !this.$editor.v3d.play
+                this.$editor.core.play = !this.$editor.core.play
                 this.$editor.control.enabled = !this.play
             },
             setPause() {
@@ -128,7 +128,7 @@
             removeSelected() {
             },
             freeSelected() {
-                this.$editor.v3d.capture_set(null)
+                this.$editor.selected = null
                 this.$refs.tree.setCurrentKey(null)
             },
             save() {
@@ -141,10 +141,10 @@
                 }
             },
             changeTarget(obj) {
-                this.$editor.v3d.capture_set(obj)
+                this.$editor.selected = obj
             },
             changeScene(scene) {
-                this.$editor.v3d.capture_set(null)
+                this.$editor.selected = null
             }
         }
     }
