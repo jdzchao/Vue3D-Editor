@@ -9,9 +9,19 @@ import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 import 'element-ui/lib/theme-chalk/index.css'
 
 // Vue preset
-Vue.use(Vue3D)
-Vue.use(Vue3dEditor)
 Vue.use(ElementUI)
+Vue.use(Vue3D)
+Vue.use(Vue3dEditor, {
+    debug: false,
+    upload_image: 'https://s3.cifuwu.com/api/upload/image/file',
+    upload_model: 'https://s3.cifuwu.com/api/upload/model',
+    image_loader: (name, size) => {
+        if (!name) return;
+        if (!size) size = '1024';
+        return 'https://s3.cifuwu.com/image/show/' + size + '/' + name;
+    }
+})
+
 
 Vue.config.productionTip = false
 

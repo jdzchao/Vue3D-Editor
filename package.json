@@ -9,12 +9,12 @@
   },
   "dependencies": {
     "core-js": "^2.6.5",
-    "element-ui": "^2.8.2",
+    "element-ui": "^2.10.1",
     "normalize.css": "^8.0.1",
     "qiniu-js": "^2.5.4",
-    "three": "0.105.2",
+    "three": "0.106.2",
     "vue": "^2.6.10",
-    "vue3d": "^0.7.6"
+    "vue3d": "^0.7.7"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.6.0",

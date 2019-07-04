@@ -111,7 +111,7 @@
             }
         },
         mounted() {
-            this.$vue3d.on('capture', this.captured)
+            this.$vue3d.on('capture', this.onCaptured)
         },
         methods: {
             setPlay() {
@@ -129,23 +129,25 @@
             },
             freeSelected() {
                 this.$editor.selected = null
-                this.$refs.tree.setCurrentKey(null)
+                // this.$refs.tree.setCurrentKey(null)
             },
             save() {
-            },
-            captured(editor, obj) {
-                if (obj) {
-                    this.$refs.tree.setCurrentKey(obj.uuid)
-                } else {
-                    this.$refs.tree.setCurrentKey(null)
-                }
             },
             changeTarget(obj) {
                 this.$editor.selected = obj
             },
             changeScene(scene) {
-                this.$editor.selected = null
-            }
+                this.freeSelected()
+            },
+            onCaptured(editor, obj) {
+                if (obj) {
+                    this.$refs.tree.setCurrentKey(obj.uuid)
+                } else {
+                    if (this.$refs.tree.getCurrentKey()) {
+                        this.$refs.tree.setCurrentKey(null)
+                    }
+                }
+            },
         }
     }
 </script>

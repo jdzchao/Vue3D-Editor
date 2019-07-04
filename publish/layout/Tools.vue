@@ -1,15 +1,16 @@
 <template>
     <div class="tools">
-        <!--        <panel-hierarchy></panel-hierarchy>-->
         <el-tabs type="border-card" class="tabs">
             <el-tab-pane>
                 <span slot="label">
-                    <vue-icon type="transform"></vue-icon></span>
+                    <vue-icon type="transform"></vue-icon>
+                </span>
                 <v3de-transform></v3de-transform>
             </el-tab-pane>
             <el-tab-pane>
                 <span slot="label">
-                    <vue-icon type="materials"></vue-icon></span>
+                    <vue-icon type="materials"></vue-icon>
+                </span>
                 <v3de-materials></v3de-materials>
             </el-tab-pane>
         </el-tabs>

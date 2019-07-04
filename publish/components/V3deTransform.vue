@@ -2,7 +2,7 @@
     <div id="v3de-transform">
         <div class="title">
             <vue-icon type="panel"></vue-icon>
-            TRANSFORM
+            <span> TRANSFORM </span>
         </div>
         <div class="buttons">
             <el-button-group>
@@ -66,26 +66,18 @@
         data() {
             return {
                 handler: '',
+                mode: 'translate',
                 position: {x: 0, y: 0, z: 0},
                 rotation: {x: 0, y: 0, z: 0},
                 scale: {x: 1, y: 1, z: 1},
                 axis: {x: 0, y: 0, z: 0},
                 selected: null,
-                mode: 'translate'
+                disabled: true,
             }
         },
         created() {
             this.selected = this.$editor.selected;
             this.mode = this.$editor.control.mode;
-        },
-        computed: {
-            disabled: {
-                get() {
-                    return this.$editor.selected === null;
-                },
-                set() {
-                }
-            }
         },
         watch: {
             "$editor.selected"(val) {
@@ -95,6 +87,9 @@
                     this.position = val.position;
                     this.rotation = val.rotation;
                     this.scale = val.scale;
+                    this.disabled = false
+                } else {
+                    this.disabled = true
                 }
             },
             position: {

@@ -22,8 +22,7 @@
   "homepage": "https://github.com/jdzchao/Vue3D-Editor#readme",
   "dependencies": {
     "element-ui": "^2.7.2",
-    "three": "^0.103.0",
-    "vue-i18n": "^8.9.0",
-    "vue3d": "^0.6.5"
+    "three": "^0.106.2",
+    "vue3d": "^0.7.7"
   }
 }

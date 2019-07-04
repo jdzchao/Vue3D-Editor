@@ -6,6 +6,7 @@ import VueIcon from './components/VueIcon'
  */
 export default {
     install: function (Vue, opts) {
+        Vue.prototype.$config = opts
         Vue.component('vue3d-editor', Vue3dEditor)
         Vue.component('vue-icon', VueIcon)
     }

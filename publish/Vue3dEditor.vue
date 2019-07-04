@@ -1,24 +1,10 @@
 <template>
     <div id="vue3d-editor">
         <div class="viewport">
-            <vue3d ref="editor" :width="width" :height="height" :config="config" @success="onSuccess">
-                <v-component v-for="item in arr" v-bind="item"></v-component>
-                <!--                <v3d-scene id="editor">-->
-                <!--                    <v3d-camera-perspective :width="width" :height="height"-->
-                <!--                                            :position="{x:0,y:0,z:10}"></v3d-camera-perspective>-->
-                <!--                    <v3d-light-rect-area :width="100" :height="100" :intensity="1"-->
-                <!--                                         :target="{x:5,y:0,z:0}" :position="{x:0,y:0,z:10}"></v3d-light-rect-area>-->
-                <!--                    <v3d-geom-box :material="Materials.standard()"></v3d-geom-box>-->
-                <!--                    &lt;!&ndash;                    <v3d-loader-obj path="/models/obj/Cerberus.obj" :material="Materials.standard()"></v3d-loader-obj>&ndash;&gt;-->
-                <!--                </v3d-scene>-->
-                <!--                <v3d-scene id="test2">-->
-                <!--                    <v3d-camera-perspective :width="width" :height="height"-->
-                <!--                                            :position="{x:0,y:0,z:10}"></v3d-camera-perspective>-->
-                <!--                    <v3d-light-rect-area :width="100" :height="100" :intensity="1"-->
-                <!--                                         :target="{x:5,y:0,z:0}" :position="{x:0,y:0,z:10}"></v3d-light-rect-area>-->
-                <!--                    <v3d-geom-cylinder :material="Materials.standard()"></v3d-geom-cylinder>-->
-                <!--                    &lt;!&ndash;                    <v3d-loader-obj path="/models/obj/Cerberus.obj" :material="Materials.standard()"></v3d-loader-obj>&ndash;&gt;-->
-                <!--                </v3d-scene>-->
+            <vue3d ref="editor" :width="width" :height="height" :config="$config" @success="onSuccess">
+                <v3d-scene v-for="scene in data.scenes" :id="scene.id">
+                    <v-component v-for="com in scene.components" v-bind="com"></v-component>
+                </v3d-scene>
                 <box-helper></box-helper>
                 <grid-helper :size="100"></grid-helper>
             </vue3d>
@@ -33,14 +19,14 @@
 
 <script>
     import Vue from 'vue'
+    import {TransformControls} from 'three/examples/jsm/controls/TransformControls'
     import {Materials} from '../Vue3D'
     import PanelTools from "./layout/Tools"
     import PanelHierarchy from "./layout/Hierarchy";
     import PanelDialog from "./layout/Dialog"
     import BoxHelper from "./plugins/BoxHelper";
     import GridHelper from "./plugins/GridHelper";
-    import {TransformControls} from 'three/examples/jsm/controls/TransformControls'
-    import VComponent from "@edt/components/VComponent";
+    import VComponent from "./components/VComponent";
 
     export default {
         name: "Vue3dEditor",
@@ -54,10 +40,8 @@
         },
         data() {
             return {
-                Materials,
                 width: 500,
                 height: 500,
-                config: {debug: false},
 
                 core: null, // vue3d 核心组件引用
                 canvas: null, // 编辑器画布
@@ -68,48 +52,54 @@
                 orbit: null, // orbit controller
                 control: null, // transform controller
 
+                materials: {standard: Materials.standard()},
+
                 ready: false,
 
-                arr: [
-                    {
-                        id: 'first', type: 'V3dScene', children: [
-                            {
-                                id: 'camera',
-                                type: 'V3dCameraPerspective',
-                                width: this.width,
-                                height: this.height,
-                                position: {x: 0, y: 0, z: 10}
-                            },
-                            {
-                                id: 'light',
-                                type: 'V3dLightRectArea',
-                                width: 100,
-                                height: 100,
-                                intensity: 1,
-                                target: {x: 5, y: 0, z: 0},
-                                position: {x: 0, y: 0, z: 10}
-                            },
-                            {
-                                id: 'box',
-                                type: 'V3dGeomBox',
-                                material: Materials.standard()
-                            }
-                        ]
-                    }
-                ]
+                data: {
+                    version: 0.1,
+                    materials: [],
+                    scenes: [
+                        {
+                            id: 'editor',
+                            components: [
+                                {
+                                    id: 'camera',
+                                    type: 'V3dCameraPerspective',
+                                    width: this.width,
+                                    height: this.height,
+                                    position: {x: 0, y: 0, z: 10}
+                                },
+                                {
+                                    id: 'light',
+                                    type: 'V3dLightRectArea',
+                                    width: 100,
+                                    height: 100,
+                                    intensity: 1,
+                                    target: {x: 5, y: 0, z: 0},
+                                    position: {x: 0, y: 0, z: 10}
+                                },
+                                {
+                                    id: 'box',
+                                    type: 'V3dGeomBox',
+                                    material: Materials.standard()
+                                }
+                            ]
+                        }
+                    ]
+                }
             }
         },
         computed: {
             selected: {
                 get() {
                     if (!this.core && this.core.renderer.pause) return null;
-                    console.log(this.core)
                     return this.core.capture.target;
                 },
                 set(obj) {
                     this.core.capture.target = obj;
                 }
-            }
+            },
         },
         mounted() {
             Vue.prototype.$editor = this;

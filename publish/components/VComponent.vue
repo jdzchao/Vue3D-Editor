@@ -1,6 +1,6 @@
 <template>
-    <component :id="id" :is="type">
-        <v-component v-for="item in children" v-bind="item"></v-component>
+    <component :id="id" :is="type" v-bind="$attrs">
+        <v-component v-for="com in children" v-bind="com"></v-component>
     </component>
 </template>
 
@@ -14,7 +14,3 @@
         }
     }
 </script>
-
-<style scoped>
-
-</style>

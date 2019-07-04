@@ -14,7 +14,9 @@
                                        :value="item.data.name"></el-option>
                         </template>
                     </el-select>
-                    <el-button size="small" @click="createMaterial">新建</el-button>
+                    <el-button size="small" @click="createMaterial">
+                        <vue-icon type="add"></vue-icon>
+                    </el-button>
                 </el-form-item>
             </el-form>
 
