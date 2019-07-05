@@ -1,7 +1,9 @@
 <template>
     <el-upload class="image-uploader"
                :style="style"
-               :action="imgUploadUrl"
+               :action="$config.upload_image.action"
+               :data="$config.upload_image.data"
+               :headers="$config.upload_image.headers"
                :show-file-list="false"
                :on-success="handleImageSuccess"
                :before-upload="beforeImageUpload">
@@ -20,11 +22,6 @@
             size: {type: Number, default: 0},
             width: {type: Number, default: 178},
             height: {type: Number, default: 178},
-        },
-        data() {
-            return {
-                imgUploadUrl: this.$config.upload_image,
-            }
         },
         watch: {
             value(val, oldVal) {

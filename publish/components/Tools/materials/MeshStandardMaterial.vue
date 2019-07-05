@@ -42,7 +42,6 @@
                         :max="1"
                         :step="0.01"
                         @input="changeOpacity">
-
                 </el-slider>
             </div>
         </el-form-item>

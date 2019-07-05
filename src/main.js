@@ -13,15 +13,22 @@ Vue.use(ElementUI)
 Vue.use(Vue3D)
 Vue.use(Vue3dEditor, {
     debug: false,
-    upload_image: 'https://s3.cifuwu.com/api/upload/image/file',
-    upload_model: 'https://s3.cifuwu.com/api/upload/model',
+    upload_image: {
+        action: 'https://s3.cifuwu.com/api/upload/image/file',
+        data: {},
+        headers: {}
+    },
+    upload_model: {
+        action: 'https://s3.cifuwu.com/api/upload/model',
+        data: {},
+        headers: {}
+    },
     image_loader: (name, size) => {
         if (!name) return;
         if (!size) size = '1024';
         return 'https://s3.cifuwu.com/image/show/' + size + '/' + name;
     }
 })
-
 
 Vue.config.productionTip = false
 
