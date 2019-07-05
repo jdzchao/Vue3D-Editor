@@ -11,6 +11,11 @@
             id: {type: String},
             type: {type: String},
             children: {type: Array}
+        },
+        watch: {
+            $attrs(val) {
+                console.log(val)
+            }
         }
     }
 </script>

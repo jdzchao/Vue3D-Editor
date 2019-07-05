@@ -56,7 +56,20 @@
 
                 ready: false,
 
-                data: {
+            }
+        },
+        computed: {
+            selected: {
+                get() {
+                    if (!this.core && this.core.renderer.pause) return null;
+                    return this.core.capture.target;
+                },
+                set(obj) {
+                    this.core.capture.target = obj;
+                }
+            },
+            data() {
+                return {
                     version: 0.1,
                     materials: [],
                     scenes: [
@@ -89,17 +102,6 @@
                     ]
                 }
             }
-        },
-        computed: {
-            selected: {
-                get() {
-                    if (!this.core && this.core.renderer.pause) return null;
-                    return this.core.capture.target;
-                },
-                set(obj) {
-                    this.core.capture.target = obj;
-                }
-            },
         },
         mounted() {
             Vue.prototype.$editor = this;
