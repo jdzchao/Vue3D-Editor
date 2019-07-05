@@ -10,8 +10,8 @@
             </vue3d>
         </div>
         <div class="side-bar" v-if="ready">
-            <panel-hierarchy></panel-hierarchy>
-            <panel-tools class="side-bar"></panel-tools>
+            <panel-hierarchy class="hierarchy"></panel-hierarchy>
+            <panel-tools class="tools"></panel-tools>
         </div>
         <panel-dialog></panel-dialog>
     </div>
@@ -176,6 +176,18 @@
         width: 350px;
         height: 100%;
         overflow: hidden;
+    }
+
+    .hierarchy {
+        width: 100%;
+        height: 50%;
+        position: relative;
+    }
+
+    .tools {
+        width: 100%;
+        height: 50%;
+        position: relative;
     }
 </style>
 

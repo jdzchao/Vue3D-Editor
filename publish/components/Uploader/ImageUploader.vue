@@ -5,7 +5,7 @@
                :show-file-list="false"
                :on-success="handleImageSuccess"
                :before-upload="beforeImageUpload">
-        <div class="image" v-if="name" :path="imgPath" :style="background(name)">
+        <div class="image" v-if="value" :style="background">
             <div class="delete" @click="del">x</div>
         </div>
         <i v-else class="el-icon-plus image-uploader-icon" :style="style"></i>
@@ -24,34 +24,39 @@
         data() {
             return {
                 imgUploadUrl: this.$config.upload_image,
-                name: "",
-                style: {}
-            }
-        },
-        mounted() {
-            this.name = this.value;
-            this.style = {
-                "width": this.width + "px",
-                "height": this.height + "px",
-                "line-height": this.height + "px"
             }
         },
         watch: {
-            value(val) {
-                this.name = val;
+            value(val, oldVal) {
+                if (val === oldVal) return;
+                this.$emit('change', val)
             }
         },
         computed: {
-            imgPath() {
-                this.$emit("input", this.$config.image_loader(this.name));
-                return this.$config.image_loader(this.name);
+            background() {
+                if (this.value) {
+                    return {
+                        'background-image': 'url("' + this.value + '")',
+                        "width": this.width + 'px',
+                        "height": this.height + 'px'
+                    }
+                } else {
+                    return {}
+                }
+            },
+            style() {
+                return {
+                    "width": this.width + "px",
+                    "height": this.height + "px",
+                    "line-height": this.height + "px"
+                }
             }
         },
         methods: {
             handleImageSuccess(res, file) {
                 if (res.code === 20000) {
                     this.$message.success('上传成功');
-                    this.name = res.data.name;
+                    this.$emit("input", this.$config.image_loader(res.data.name));
                 } else {
                     this.$message.error('上传失败');
                 }
@@ -67,21 +72,14 @@
                 }
                 return ValidType && ValidSize;
             },
-            background(name) {
-                return {
-                    'background-image': 'url("' + this.$config.image_loader(name, 360) + '")',
-                    "width": this.width + 'px',
-                    "height": this.height + 'px'
-                };
-            },
+
             del(evt) {
                 let e = evt || window.event;
                 window.event ? e.returnValue = false : e.preventDefault();//默认事件
                 window.event ? e.cancelBubble = true : e.stopPropagation();
-                this.$confirm('是否删除？').then(_ => {
-                    this.name = "";
+                this.$confirm('是否删除？').then(() => {
                     this.$emit("input", this.name);
-                }).catch(err => {
+                }).catch(() => {
                 })
             }
         }

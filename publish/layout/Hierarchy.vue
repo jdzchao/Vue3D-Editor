@@ -153,12 +153,6 @@
 </script>
 
 <style scoped>
-    .hierarchy {
-        width: 100%;
-        height: 400px;
-        position: relative;
-    }
-
     .head {
         height: 36px;
         padding: 2px;
@@ -167,7 +161,7 @@
     }
 
     .tree {
-        height: 300px;
+        height: calc(100% - 100px);
         overflow-y: scroll;
         padding: 10px;
     }

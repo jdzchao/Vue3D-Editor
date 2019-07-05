@@ -58,8 +58,12 @@
                 <el-form-item label="uv贴图">
                     <el-col :span="8">
                         <el-tooltip class="item" effect="dark" content="纹理图" placement="top">
-                            <image-uploader :value="material.data.map_color" @input="changeMapColor" :width="60"
-                                            :height="60"></image-uploader>
+                            <image-uploader
+                                    v-model="material.data.map_color"
+                                    :width="60"
+                                    :height="60"
+                                    @change="changeMapColor"
+                            ></image-uploader>
                         </el-tooltip>
                     </el-col>
                     <el-col :span="8">
