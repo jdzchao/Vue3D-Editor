@@ -13,30 +13,30 @@
             <panel-hierarchy class="hierarchy"></panel-hierarchy>
             <panel-tools class="tools"></panel-tools>
         </div>
-        <panel-dialog></panel-dialog>
+        <mobile-preview v-if="ready"></mobile-preview>
     </div>
 </template>
 
 <script>
     import Vue from 'vue'
     import {TransformControls} from 'three/examples/jsm/controls/TransformControls'
-    import {Materials} from '../Vue3D'
+    import {Bus} from '../Vue3D'
     import PanelTools from "./layout/Tools"
     import PanelHierarchy from "./layout/Hierarchy";
-    import PanelDialog from "./layout/Dialog"
     import BoxHelper from "./plugins/BoxHelper";
     import GridHelper from "./plugins/GridHelper";
     import VComponent from "./components/VComponent";
+    import MobilePreview from "@edt/layout/MobilePreview";
 
     export default {
         name: "Vue3dEditor",
         components: {
+            MobilePreview,
             VComponent,
             GridHelper,
             BoxHelper,
             PanelHierarchy,
             PanelTools,
-            PanelDialog
         },
         data() {
             return {
@@ -52,7 +52,7 @@
                 orbit: null, // orbit controller
                 control: null, // transform controller
 
-                materials: {standard: Materials.standard()},
+                materials: {standard: Bus.mtl_standard()},
 
                 ready: false,
 
@@ -81,7 +81,9 @@
                                     type: 'V3dCameraPerspective',
                                     width: this.width,
                                     height: this.height,
-                                    position: {x: 0, y: 0, z: 10}
+                                    position: {x: 0, y: 0, z: 10},
+                                    near: 0.1,
+                                    far: 2000,
                                 },
                                 {
                                     id: 'light',
@@ -95,7 +97,7 @@
                                 {
                                     id: 'box',
                                     type: 'V3dGeomBox',
-                                    material: Materials.standard()
+                                    material: Bus.mtl_standard()
                                 }
                             ]
                         }
@@ -127,7 +129,6 @@
             this.onResize();
             window.addEventListener("resize", this.onResize);
             this.$vue3d.on('capture', this.setAttach);
-
         },
         methods: {
             setAttach(editor, obj) {

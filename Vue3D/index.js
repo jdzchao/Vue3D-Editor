@@ -16,8 +16,6 @@ import V3dLightRectArea from "./packages/V3dLightRectArea" // RectArea Light
 import V3dLightSpot from "./packages/V3dLightSpot" // Spot Light
 // Loader
 import V3dLoaderObj from "./packages/V3dLoaderObj"; // Obj Loader
-// 工具
-import Materials from './utils/Materials'
 
 const components = [
     Vue3d,
@@ -49,9 +47,9 @@ if (typeof window !== 'undefined' && window.Vue) {
 export default {
     install,
 }
+
 export {
     Bus,
-
     Vue3d,
     V3dScene,
     V3dCameraPerspective,
@@ -62,6 +60,4 @@ export {
     V3dLightRectArea,
     V3dLightSpot,
     V3dLoaderObj,
-
-    Materials
 }

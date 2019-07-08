@@ -14,7 +14,6 @@
         },
         watch: {
             $attrs(val) {
-                console.log(val)
             }
         }
     }

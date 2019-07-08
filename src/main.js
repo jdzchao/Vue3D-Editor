@@ -1,12 +1,13 @@
+// CSS
+import 'normalize.css/normalize.css' // A modern alternative to CSS resets
+import 'element-ui/lib/theme-chalk/index.css'
+
 import Vue from 'vue'
 import App from './App.vue'
 import Vue3dEditor from '../publish'
 import ElementUI from 'element-ui'
 // import Vue3D from 'vue3d'
 import Vue3D from '../Vue3D'
-// CSS
-import 'normalize.css/normalize.css' // A modern alternative to CSS resets
-import 'element-ui/lib/theme-chalk/index.css'
 
 // Vue preset
 Vue.use(ElementUI)

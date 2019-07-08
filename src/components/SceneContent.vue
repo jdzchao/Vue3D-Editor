@@ -1,15 +1,12 @@
 <template>
     <div id="content">
-        <demo-dev></demo-dev>
+        <vue3d-editor></vue3d-editor>
     </div>
 </template>
 
 <script>
-    import DemoDev from "@c/demo/DemoDev";
-
     export default {
         name: "SceneContent",
-        components: {DemoDev}
     }
 </script>
 

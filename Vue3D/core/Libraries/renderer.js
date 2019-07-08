@@ -154,17 +154,6 @@ class Renderer {
         this.renderer.setClearColor(new THREE.Color(clearColor).getHex(), clearAlpha);
         return this;
     }
-
-    /**
-     * Set renderer camera's Aspect
-     * @returns {Renderer}
-     */
-    setAspect() {
-        this._camera.aspect = this.width / this.height;
-        this._camera.updateProjectionMatrix();// 摄像机参数改变后必须执行生效
-        return this;
-    }
-
 }
 
 export default Renderer
