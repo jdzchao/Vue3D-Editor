@@ -133,7 +133,6 @@
             },
             changeMap(val) {
                 new THREE.TextureLoader().load(
-                    // this.$config.image_loader(val),
                     val,
                     res => {
                         this.material.map = res;
@@ -151,7 +150,6 @@
             },
             changeNormalMap(val) {
                 new THREE.TextureLoader().load(
-                    // this.$config.image_loader(val),
                     val,
                     res => {
                         res.name = val;
@@ -170,7 +168,6 @@
             },
             changeEmissiveMap(val) {
                 new THREE.TextureLoader().load(
-                    // this.$config.image_loader(val),
                     val,
                     res => {
                         res.name = val;
