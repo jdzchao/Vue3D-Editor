@@ -5,7 +5,7 @@
                 <v3d-scene v-for="scene in data.scenes" :id="scene.id">
                     <v-component v-for="com in scene.components" v-bind="com"></v-component>
                 </v3d-scene>
-                <box-helper></box-helper>
+                <!--                <box-helper></box-helper>-->
                 <grid-helper :size="100"></grid-helper>
             </vue3d>
         </div>

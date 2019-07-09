@@ -71,8 +71,7 @@
                 if (!this.opened) return;
                 if (cameras.hasOwnProperty('cameras')) {
                     cameras.cameras.forEach(camera => {
-                        console.log()
-                        camera.fov = 75
+                        camera.fov = 50
                         camera.viewport.set(0, 0, this.width, this.height)
                         camera.aspect = this.width / this.height;
                         camera.updateProjectionMatrix();// 摄像机参数改变后必须执行生效

@@ -12,6 +12,11 @@
                 <v3de-material class="scroll"></v3de-material>
             </el-tab-pane>
 
+            <el-tab-pane>
+                <vue-icon type="light" slot="label"></vue-icon>
+                <v3de-material class="scroll"></v3de-material>
+            </el-tab-pane>
+
         </el-tabs>
     </div>
 </template>

@@ -31,11 +31,17 @@
 </template>
 
 <script>
+    import LineBasicMaterial from './materials/LineBasicMaterial'
+    import MeshBasicMaterial from './materials/MeshBasicMaterial'
     import MeshStandardMaterial from './materials/MeshStandardMaterial'
 
     export default {
         name: "V3deMaterial",
-        components: {MeshStandardMaterial},
+        components: {
+            LineBasicMaterial,
+            MeshBasicMaterial,
+            MeshStandardMaterial,
+        },
         data() {
             return {
                 handler: '',

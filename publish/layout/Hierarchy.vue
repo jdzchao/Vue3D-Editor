@@ -33,6 +33,7 @@
                      :props="defaultProps"
                      :expand-on-click-node="false"
                      :highlight-current="true"
+                     :filter-node-method="filterHelpers"
                      @current-change="changeTarget"
                      node-key="uuid"
                      default-expand-all>
@@ -110,10 +111,28 @@
                 }
             }
         },
+        watch: {
+            "$editor.selected"(val, oldVal) {
+                if (val && val.hasOwnProperty('helper')) {
+                    val.helper.visible = true
+                }
+                if (oldVal && oldVal.hasOwnProperty('helper')) {
+                    oldVal.helper.visible = false
+                }
+            },
+        },
         mounted() {
             this.$vue3d.on('capture', this.onCaptured)
         },
+        updated() {
+            this.$refs.tree.filter("")
+        },
         methods: {
+            filterHelpers(value, data) {
+                return data.hasOwnProperty('vue3d')
+                // const helpers = ['CameraHelper']
+                // return helpers.indexOf(data.constructor.name) === -1
+            },
             setPlay() {
                 this.$editor.core.play = !this.$editor.core.play
                 this.$editor.control.enabled = !this.play
