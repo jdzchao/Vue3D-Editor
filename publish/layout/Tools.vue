@@ -13,8 +13,8 @@
             </el-tab-pane>
 
             <el-tab-pane>
-                <vue-icon type="light" slot="label"></vue-icon>
-                <v3de-material class="scroll"></v3de-material>
+                <vue-icon type="setting" slot="label"></vue-icon>
+                <v3de-setting/>
             </el-tab-pane>
 
         </el-tabs>
@@ -24,10 +24,11 @@
 <script>
     import V3deTransform from "../components/Tools/V3deTransform";
     import V3deMaterial from "../components/Tools/V3deMaterial";
+    import V3deSetting from "@edt/components/Tools/V3deSetting";
 
     export default {
         name: "PanelTools",
-        components: {V3deMaterial, V3deTransform}
+        components: {V3deSetting, V3deMaterial, V3deTransform}
     }
 </script>
 <style scoped>

@@ -29,7 +29,7 @@
         beforeMount() {
             this.object3d = this.light;
             if (Bus.config.helper && this.withHelper) {
-                this.helper = new THREE.SpotLightHelper(this.light, this.color);
+                this.helper = new THREE.SpotLightHelper(this.light);
                 this.helper.visible = this.visibleHelper;
                 this.object3d.helper = this.helper;
                 this.scene.add(this.helper)

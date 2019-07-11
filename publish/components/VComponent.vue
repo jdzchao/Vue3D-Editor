@@ -1,6 +1,6 @@
 <template>
-    <component :id="id" :is="type" v-bind="$attrs">
-        <v-component v-for="com in children" v-bind="com"></v-component>
+    <component :id="id" :is="type" v-bind="$attrs" @update="update">
+        <v-component v-for="com in children" v-bind="com" @synced="onSynced(com,$event)"></v-component>
     </component>
 </template>
 
@@ -12,8 +12,14 @@
             type: {type: String},
             children: {type: Array}
         },
-        watch: {
-            $attrs(val) {
+        methods: {
+            update(val) {
+                this.$attrs[val.attr] = val.value
+                this.$emit('synced', val)
+            },
+            onSynced(obj, val) {
+                obj[val.attr] = val.value
+                console.log(obj)
             }
         }
     }

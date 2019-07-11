@@ -61,21 +61,71 @@ export default {
         this.render();
     },
     beforeDestroy() {
-        this.onDestroy();
-        this.slotOut();
-        this._removeObject3d(this.object3d);
+        this.$emit('remove', this.object3d);
+        this.slot = false;
+        this.removeObject3d(this.object3d);
     },
     methods: {
         init() {
-            this.object3d.vue3d = this;
+            this.object3d.vComponent = this;
             this.object3d.name = this.name || this.$options.name;
-            this.setPosition();
-            this.setRotation();
-            this.setScale();
-            this.setTarget();
-            this._addObject3d(this.object3d);
-            this.slotIn();
-            this.onReady();
+
+            this.addObject3d(this.object3d)
+
+            /** Watch Position Prop **/
+            this.$watch(
+                function () {
+                    return this.position.x + "" + this.position.y + "" + this.position.z
+                },
+                function (val) {
+                    this.setPosition();
+                },
+                {
+                    immediate: true
+                }
+            );
+
+            /** Watch Rotation Prop **/
+            this.$watch(
+                function () {
+                    return this.rotation.x + "" + this.rotation.y + "" + this.rotation.z
+                },
+                function (val) {
+                    this.setRotation();
+                },
+                {
+                    immediate: true
+                }
+            );
+
+            /** Watch Scale Prop **/
+            this.$watch(
+                function () {
+                    return this.scale.x + "" + this.scale.y + "" + this.scale.z
+                },
+                function (val) {
+                    this.setScale();
+                },
+                {
+                    immediate: true
+                }
+            );
+
+            /** Watch Target **/
+            this.$watch(
+                function () {
+                    return this.target.x + "" + this.target.y + "" + this.target.z
+                },
+                function (val) {
+                    this.setTarget();
+                },
+                {
+                    immediate: true
+                }
+            );
+
+            this.slot = true;
+            this.$emit('ready', this.object3d);
             this.render();
         },
         // 根据vue组件递归查询scene节点
@@ -96,17 +146,20 @@ export default {
                 this._recursion(parent.$parent);
             }
         },
-        // 插槽中添加三维对象
-        _addObject3d(object3d) {
-            if (this.inTree) {
-                this.addObject3d(object3d, true);
+        addObject3d(object3d) {
+            if (this.inTree && this.parent.hasOwnProperty('object3d')) {
+                this.parent.object3d.add(object3d);
             } else {
-                this.addObject3d(object3d, false);
+                this.scene.add(object3d);
             }
         },
-        // 插槽中移除三位对象
-        _removeObject3d(object3d) {
-            this.removeObject3d(object3d, true);
+        removeObject3d(object3d) {
+            if (this.inTree && this.parent.hasOwnProperty('object3d')) {
+                this.parent.object3d.remove(object3d);
+            } else {
+                this.scene.remove(object3d);
+            }
+            this.vue3d.off("update", this.onRender);
         },
         setPosition() {
             this.object3d.position.set(this.position.x, this.position.y, this.position.z);
@@ -122,96 +175,26 @@ export default {
         },
         setTarget() {
             this.object3d.lookAt(this.target.x, this.target.y, this.target.z);
-        },
-        addObject3d(object3d, inNode) {
-            if (inNode && this.parent.hasOwnProperty('object3d')) {
-                this.parent.object3d.add(object3d);
-            } else {
-                this.scene.add(object3d);
-            }
-        },
-        removeObject3d(object3d, inNode) {
-            if (inNode && this.parent.hasOwnProperty('object3d')) {
-                this.parent.object3d.remove(object3d);
-            } else {
-                this.removeObject3d(object3d);
-            }
-            this.vue3d.off("update", this.onRender);
-        },
-        // 激活插槽
-        slotIn() {
-            this.slot = true;
-        },
-        // 屏蔽插槽
-        slotOut() {
-            this.slot = false;
+            this.render();
         },
         // 渲染
         render() {
             this.vue3d.render();
         },
-        onReady() {
-            this.$emit('ready', this.object3d);
-        },
         onRender() {
             this.$emit('update', this.object3d);
         },
-        onDestroy() {
-            this.$emit('remove', this.object3d);
-        }
     },
     watch: {
         name(val, oldVal) {
             if (val === oldVal) return;
             this.object3d.name = val;
         },
-        "position.x"(val, oldVal) {
+        "object3d.position.x"(val, oldVal) {
             if (val === oldVal) return;
-            this.setPosition();
+            // this.position = {a: 1}
+            // console.log(this.position, {x: val, y: this.position.y, z: this.position.z})
         },
-        "position.y"(val, oldVal) {
-            if (val === oldVal) return;
-            this.setPosition();
-        },
-        "position.z"(val, oldVal) {
-            if (val === oldVal) return;
-            this.setPosition();
-        },
-        "rotation.x"(val, oldVal) {
-            if (val === oldVal) return;
-            this.setRotation();
-        },
-        "rotation.y"(val, oldVal) {
-            if (val === oldVal) return;
-            this.setRotation();
-        },
-        "rotation.z"(val, oldVal) {
-            if (val === oldVal) return;
-            this.setRotation();
-        },
-        "scale.x"(val, oldVal) {
-            if (val === oldVal) return;
-            this.setScale();
-        },
-        "scale.y"(val, oldVal) {
-            if (val === oldVal) return;
-            this.setScale();
-        },
-        "scale.z"(val, oldVal) {
-            if (val === oldVal) return;
-            this.setScale();
-        },
-        "target.x"(val, oldVal) {
-            if (val === oldVal) return;
-            this.setTarget();
-        },
-        "target.y"(val, oldVal) {
-            if (val === oldVal) return;
-            this.setTarget();
-        },
-        "target.z"(val, oldVal) {
-            if (val === oldVal) return;
-            this.setTarget();
-        },
+
     },
 }

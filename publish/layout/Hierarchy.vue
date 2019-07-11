@@ -33,7 +33,6 @@
                      :props="defaultProps"
                      :expand-on-click-node="false"
                      :highlight-current="true"
-                     :filter-node-method="filterHelpers"
                      @current-change="changeTarget"
                      node-key="uuid"
                      default-expand-all>
@@ -72,7 +71,12 @@
                 save_keep: false,
                 defaultProps: {
                     children: 'children',
-                    label: 'name'
+                    label: (data, node) => {
+                        if (!data.hasOwnProperty('vComponent')) {
+                            node.visible = false
+                        }
+                        return data.name
+                    }
                 },
             };
         },
@@ -119,20 +123,13 @@
                 if (oldVal && oldVal.hasOwnProperty('helper')) {
                     oldVal.helper.visible = false
                 }
+                console.log(val)
             },
         },
         mounted() {
             this.$vue3d.on('capture', this.onCaptured)
         },
-        updated() {
-            this.$refs.tree.filter("")
-        },
         methods: {
-            filterHelpers(value, data) {
-                return data.hasOwnProperty('vue3d')
-                // const helpers = ['CameraHelper']
-                // return helpers.indexOf(data.constructor.name) === -1
-            },
             setPlay() {
                 this.$editor.core.play = !this.$editor.core.play
                 this.$editor.control.enabled = !this.play

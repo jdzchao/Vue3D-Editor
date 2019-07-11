@@ -25,7 +25,7 @@
         beforeMount() {
             this.object3d = this.light;
             if (Bus.config.helper && this.withHelper) {
-                this.helper = new THREE.DirectionalLightHelper(this.light, 1, this.color);
+                this.helper = new THREE.DirectionalLightHelper(this.light);
                 this.helper.visible = this.visibleHelper;
                 this.object3d.helper = this.helper;
                 this.object3d.add(this.helper)

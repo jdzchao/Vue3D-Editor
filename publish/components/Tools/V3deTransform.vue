@@ -4,6 +4,7 @@
             <vue-icon type="panel"></vue-icon>
             <span> TRANSFORM </span>
         </div>
+        <!--Tools-->
         <div class="buttons">
             <el-button-group>
                 <el-button @click="reset" :disabled="disabled">
@@ -22,6 +23,7 @@
                 </el-radio-button>
             </el-radio-group>
         </div>
+        <!--Position-->
         <div class="tf-group">
             <div class="input-group">
                 <label>Position</label>
@@ -33,6 +35,7 @@
                                  controls-position="right"></el-input-number>
             </div>
         </div>
+        <!--Rotation-->
         <div class="tf-group">
             <div class="input-group">
                 <label>Rotation</label>
@@ -44,6 +47,7 @@
                                  controls-position="right"></el-input-number>
             </div>
         </div>
+        <!--Scale-->
         <div class="tf-group">
             <div class="input-group">
                 <label>Scale</label>
@@ -59,8 +63,6 @@
 </template>
 
 <script>
-    // import {mapState} from 'vuex'
-
     export default {
         name: "V3deTransform",
         data() {

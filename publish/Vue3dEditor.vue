@@ -2,8 +2,10 @@
     <div id="vue3d-editor">
         <div class="viewport">
             <vue3d ref="editor" :width="width" :height="height" :config="$config" @success="onSuccess">
-                <v3d-scene v-for="scene in data.scenes" :id="scene.id">
-                    <v-component v-for="com in scene.components" v-bind="com"></v-component>
+                <v3d-scene v-for="scene in data.scenes" :id="scene.id" :key="scene.id">
+                    <v-component v-for="com in scene.components" v-bind="com"
+                                 @synced="onSynced(com, $event)"></v-component>
+                    <v3d-geom-box :position.sync="position"></v3d-geom-box>
                 </v3d-scene>
                 <!--                <box-helper></box-helper>-->
                 <grid-helper :size="100"></grid-helper>
@@ -55,7 +57,12 @@
                 materials: {standard: Bus.mtl_standard()},
 
                 ready: false,
-
+                position: {x: 0, y: 1.5, z: 0}
+            }
+        },
+        watch: {
+            "position.x"(val) {
+                console.log(val)
             }
         },
         computed: {
@@ -97,7 +104,15 @@
                                 {
                                     id: 'box',
                                     type: 'V3dGeomBox',
-                                    material: Bus.mtl_standard()
+                                    material: Bus.mtl_standard(),
+                                    // children: [
+                                    //     {
+                                    //         id: 'box',
+                                    //         type: 'V3dGeomBox',
+                                    //         material: Bus.mtl_standard(),
+                                    //         position: {x: 2, y: 0, z: 0},
+                                    //     }
+                                    // ]
                                 }
                             ]
                         }
@@ -119,12 +134,16 @@
             // set TransformControls
             this.control = new TransformControls(this.camera, this.canvas);
             this.control.addEventListener('change', this.render);
-            this.control.update = this.render;
+            // this.control.update = this.render;
+            // this.control.setMode("rotate")
             this.control.addEventListener('dragging-changed', (event) => {
                 this.orbit.control.enabled = !event.value;
             });
             this.scene.add(this.control);
-
+            setTimeout(() => {
+                this.position.x += 1
+                this.position.y -= 1
+            }, 2000)
             // resize
             this.onResize();
             window.addEventListener("resize", this.onResize);
@@ -132,6 +151,7 @@
         },
         methods: {
             setAttach(editor, obj) {
+                console.log(this.data)
                 try {
                     if (obj) {
                         this.control.attach(obj);
@@ -152,6 +172,11 @@
             },
             onSuccess() {
                 this.ready = true;
+            },
+            onSynced(obj, val) {
+                console.log(obj, val)
+                obj[val.attr] = val.value
+                console.log(obj, val)
             }
         },
 
