@@ -14,7 +14,9 @@
         },
         methods: {
             update(val) {
+                console.log(val)
                 this.$attrs[val.attr] = val.value
+                console.log(this.$attrs.position)
                 this.$emit('synced', val)
             },
             onSynced(obj, val) {

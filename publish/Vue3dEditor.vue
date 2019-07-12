@@ -60,11 +60,6 @@
                 position: {x: 0, y: 1.5, z: 0}
             }
         },
-        watch: {
-            "position.x"(val) {
-                console.log(val)
-            }
-        },
         computed: {
             selected: {
                 get() {
