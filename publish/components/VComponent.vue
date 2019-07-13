@@ -18,7 +18,6 @@
 
                 // this.$attrs.position.x++;
                 // console.log(this.$attrs.position)
-                this.$emit('synced', val)
             },
 
         },

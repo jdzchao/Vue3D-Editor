@@ -139,6 +139,7 @@
             },
             setAxisX(n) {
                 this.rotation.x = parseFloat((n * Math.PI / 180).toFixed(2));
+                this.$editor.render();
             },
             setAxisY(n) {
                 this.rotation.y = parseFloat((n * Math.PI / 180).toFixed(2));

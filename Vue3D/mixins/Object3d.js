@@ -20,12 +20,12 @@ export default {
         },
         scale: {
             type: Object, default() {
-                return new THREE.Vector3()
+                return new THREE.Vector3(1, 1, 1)
             }
         },
         target: {
             type: Object,
-            default: () => {
+            default() {
                 return {x: 0, y: 0, z: 0}
             }
         },
@@ -70,7 +70,9 @@ export default {
 
             this.addObject3d(this.object3d);
             this.setPosition(this.position);
-
+            this.setRotation(this.rotation);
+            this.setScale(this.scale);
+            this.setTarget();
 
             this.slot = true;
             this.$emit('ready', this.object3d);
