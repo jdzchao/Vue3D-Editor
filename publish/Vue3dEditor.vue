@@ -3,9 +3,7 @@
         <div class="viewport">
             <vue3d ref="editor" :width="width" :height="height" :config="$config" @success="onSuccess">
                 <v3d-scene v-for="scene in data.scenes" :id="scene.id" :key="scene.id">
-                    <v-component v-for="com in scene.components" v-bind="com"
-                                 @synced="onSynced(com, $event)"></v-component>
-                    <v3d-geom-box :position.sync="position"></v3d-geom-box>
+                    <v-component v-for="com in scene.components" v-bind="com"></v-component>
                 </v3d-scene>
                 <!--                <box-helper></box-helper>-->
                 <grid-helper :size="100"></grid-helper>
@@ -29,6 +27,7 @@
     import GridHelper from "./plugins/GridHelper";
     import VComponent from "./components/VComponent";
     import MobilePreview from "@edt/layout/MobilePreview";
+    import * as THREE from 'three'
 
     export default {
         name: "Vue3dEditor",
@@ -57,21 +56,7 @@
                 materials: {standard: Bus.mtl_standard()},
 
                 ready: false,
-                position: {x: 0, y: 1.5, z: 0}
-            }
-        },
-        computed: {
-            selected: {
-                get() {
-                    if (!this.core && this.core.renderer.pause) return null;
-                    return this.core.capture.target;
-                },
-                set(obj) {
-                    this.core.capture.target = obj;
-                }
-            },
-            data() {
-                return {
+                data: {
                     version: 0.1,
                     materials: [],
                     scenes: [
@@ -115,6 +100,26 @@
                 }
             }
         },
+        watch: {
+            data: {
+                handler(val) {
+                    console.log(val)
+                },
+                deep: true
+            }
+        },
+        computed: {
+            selected: {
+                get() {
+                    if (!this.core && this.core.renderer.pause) return null;
+                    return this.core.capture.target;
+                },
+                set(obj) {
+                    this.core.capture.target = obj;
+                }
+            },
+
+        },
         mounted() {
             Vue.prototype.$editor = this;
 
@@ -135,10 +140,7 @@
                 this.orbit.control.enabled = !event.value;
             });
             this.scene.add(this.control);
-            setTimeout(() => {
-                this.position.x += 1
-                this.position.y -= 1
-            }, 2000)
+
             // resize
             this.onResize();
             window.addEventListener("resize", this.onResize);
@@ -146,7 +148,6 @@
         },
         methods: {
             setAttach(editor, obj) {
-                console.log(this.data)
                 try {
                     if (obj) {
                         this.control.attach(obj);
@@ -169,9 +170,7 @@
                 this.ready = true;
             },
             onSynced(obj, val) {
-                console.log(obj, val)
                 obj[val.attr] = val.value
-                console.log(obj, val)
             }
         },
 

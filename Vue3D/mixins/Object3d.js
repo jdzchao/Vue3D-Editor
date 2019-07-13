@@ -1,14 +1,28 @@
 /**
  * 所有mixins需要在mounted之前创建Object3d对象
  */
+import * as THREE from 'three'
+
 export default {
     name: "Object3d",
     props: {
         inTree: {type: Boolean, default: true}, // 是否挂载在树节点上。当设置为false时直接挂载在scene根节点上
         name: {type: String, default: ''},
-        position: {type: Object},
-        rotation: {type: Object},
-        scale: {type: Object},
+        position: {
+            type: Object, default() {
+                return new THREE.Vector3()
+            }
+        },
+        rotation: {
+            type: Object, default() {
+                return new THREE.Vector3()
+            }
+        },
+        scale: {
+            type: Object, default() {
+                return new THREE.Vector3()
+            }
+        },
         target: {
             type: Object,
             default: () => {
@@ -55,73 +69,8 @@ export default {
             this.object3d.name = this.name || this.$options.name;
 
             this.addObject3d(this.object3d);
+            this.setPosition(this.position);
 
-            /** Watch Position Prop **/
-            this.$watch(
-                function () {
-                    if (this.position
-                        && this.position.hasOwnProperty('x')
-                        && this.position.hasOwnProperty('y')
-                        && this.position.hasOwnProperty('z')
-                    ) {
-                        return this.position.x === this.object3d.position.x
-                            && this.position.y === this.object3d.position.y
-                            && this.position.z === this.object3d.position.z
-                    }
-                    return true
-                },
-                function (bool) {
-                    if (!bool) {
-                        this.setPosition();
-                    }
-                },
-                {
-                    immediate: true
-                }
-            );
-
-            /** Watch Rotation Prop **/
-            this.$watch(
-                function () {
-                    if (this.rotation && this.rotation.hasOwnProperty('x') && this.rotation.hasOwnProperty('y') && this.rotation.hasOwnProperty('z')) {
-                        return this.rotation.x === this.object3d.rotation.x
-                            && this.rotation.y === this.object3d.rotation.y
-                            && this.rotation.z === this.object3d.rotation.z
-                    } else {
-                        return true
-                    }
-                },
-                function (bool) {
-                    if (!bool) {
-                        this.setRotation();
-                    }
-                },
-                {
-                    immediate: true
-                }
-            );
-
-            /** Watch Scale Prop **/
-            this.$watch(
-                function () {
-                    if (this.scale && this.scale.hasOwnProperty('x') && this.scale.hasOwnProperty('y') && this.scale.hasOwnProperty('z')) {
-                        return this.scale.x === this.object3d.scale.x
-                            && this.scale.y === this.object3d.scale.y
-                            && this.scale.z === this.object3d.scale.z
-                    } else {
-                        return true
-                    }
-
-                },
-                function (bool) {
-                    if (!bool) {
-                        this.setScale();
-                    }
-                },
-                {
-                    immediate: true
-                }
-            );
 
             this.slot = true;
             this.$emit('ready', this.object3d);
@@ -160,16 +109,34 @@ export default {
             }
             this.vue3d.off("update", this.onRender);
         },
-        setPosition() {
-            this.object3d.position.set(this.position.x, this.position.y, this.position.z);
+        setPosition(val) {
+            if (val instanceof THREE.Vector3) {
+                this.object3d.position = val;
+            } else if (val && val.hasOwnProperty('x') && val.hasOwnProperty('y') && val.hasOwnProperty('z')) {
+                let position = new THREE.Vector3(val.x, val.y, val.z);
+                this.object3d.position = position;
+                this.$emit("update:position", position);
+            }
             this.render();
         },
-        setRotation() {
-            this.object3d.rotation.set(this.rotation.x, this.rotation.y, this.rotation.z);
+        setRotation(val) {
+            if (val instanceof THREE.Vector3) {
+                this.object3d.rotation = val;
+            } else if (val && val.hasOwnProperty('x') && val.hasOwnProperty('y') && val.hasOwnProperty('z')) {
+                let rotation = new THREE.Vector3(val.x, val.y, val.z);
+                this.object3d.rotation = rotation;
+                this.$emit("update:rotation", rotation);
+            }
             this.render();
         },
-        setScale() {
-            this.object3d.scale.set(this.scale.x, this.scale.y, this.scale.z);
+        setScale(val) {
+            if (val instanceof THREE.Vector3) {
+                this.object3d.scale = val;
+            } else if (val && val.hasOwnProperty('x') && val.hasOwnProperty('y') && val.hasOwnProperty('z')) {
+                let scale = new THREE.Vector3(val.x, val.y, val.z);
+                this.object3d.scale = scale;
+                this.$emit("update:scale", scale);
+            }
             this.render();
         },
         setTarget() {
@@ -183,21 +150,6 @@ export default {
         onRender() {
             this.$emit('update', this.object3d);
         },
-        updatePosition(position) {
-            this.$emit("update:position", position)
-            const data = {attr: 'position', value: position}
-            this.$emit('update', data)
-        },
-        updateRotation(rotation) {
-            this.$emit("update:rotation", rotation)
-            const data = {attr: 'rotation', value: rotation}
-            this.$emit('update', data)
-        },
-        updateScale(scale) {
-            this.$emit("update:scale", scale)
-            const data = {attr: 'scale', value: scale}
-            this.$emit('update', data)
-        }
     },
     watch: {
         name(val, oldVal) {
@@ -208,77 +160,17 @@ export default {
             if (val === oldVal) return;
             this.setTarget();
         },
-        "object3d.position.x"(val, oldVal) {
-            if (val === oldVal) return;
-            this.updatePosition({
-                x: this.object3d.position.x,
-                y: this.object3d.position.y,
-                z: this.object3d.position.z
-            })
+        position(val) {
+            if (Object.is(this.object3d.position, val)) return;
+            this.setPosition(val);
         },
-        "object3d.position.y"(val, oldVal) {
-            if (val === oldVal) return;
-            this.updatePosition({
-                x: this.object3d.position.x,
-                y: this.object3d.position.y,
-                z: this.object3d.position.z
-            })
+        rotation(val) {
+            if (Object.is(this.object3d.rotation, val)) return;
+            this.setRotation(val);
         },
-        "object3d.position.z"(val, oldVal) {
-            if (val === oldVal) return;
-            this.updatePosition({
-                x: this.object3d.position.x,
-                y: this.object3d.position.y,
-                z: this.object3d.position.z
-            })
-        },
-        "object3d.rotation.x"(val, oldVal) {
-            if (val === oldVal) return;
-            this.updateRotation({
-                x: this.object3d.rotation.x,
-                y: this.object3d.rotation.y,
-                z: this.object3d.rotation.z
-            })
-        },
-        "object3d.rotation.y"(val, oldVal) {
-            if (val === oldVal) return;
-            this.updateRotation({
-                x: this.object3d.rotation.x,
-                y: this.object3d.rotation.y,
-                z: this.object3d.rotation.z
-            })
-        },
-        "object3d.rotation.z"(val, oldVal) {
-            if (val === oldVal) return;
-            this.updateRotation({
-                x: this.object3d.rotation.x,
-                y: this.object3d.rotation.y,
-                z: this.object3d.rotation.z
-            })
-        },
-        "object3d.scale.x"(val, oldVal) {
-            if (val === oldVal) return;
-            this.updateScale({
-                x: this.object3d.scale.x,
-                y: this.object3d.scale.y,
-                z: this.object3d.scale.z
-            })
-        },
-        "object3d.scale.y"(val, oldVal) {
-            if (val === oldVal) return;
-            this.updateScale({
-                x: this.object3d.scale.x,
-                y: this.object3d.scale.y,
-                z: this.object3d.scale.z
-            })
-        },
-        "object3d.scale.z"(val, oldVal) {
-            if (val === oldVal) return;
-            this.updateScale({
-                x: this.object3d.scale.x,
-                y: this.object3d.scale.y,
-                z: this.object3d.scale.z
-            })
-        },
+        scale(val) {
+            if (Object.is(this.object3d.scale, val)) return;
+            this.setScale(val);
+        }
     },
 }
