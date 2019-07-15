@@ -21,13 +21,6 @@
             },
 
         },
-        watch: {
-            $attrs: {
-                handler(val) {
-                    console.log(val)
-                },
-                deep: true
-            }
-        }
+        watch: {}
     }
 </script>
