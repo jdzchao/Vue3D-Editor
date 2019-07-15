@@ -15,7 +15,7 @@ export default {
         },
         rotation: {
             type: Object, default() {
-                return new THREE.Vector3()
+                return new THREE.Euler()
             }
         },
         scale: {
@@ -112,33 +112,30 @@ export default {
             this.vue3d.off("update", this.onRender);
         },
         setPosition(val) {
-            if (val instanceof THREE.Vector3) {
+            if (val.isVector3) {
                 this.object3d.position = val;
             } else if (val && val.hasOwnProperty('x') && val.hasOwnProperty('y') && val.hasOwnProperty('z')) {
-                let position = new THREE.Vector3(val.x, val.y, val.z);
-                this.object3d.position = position;
-                this.$emit("update:position", position);
+                this.object3d.position = new THREE.Vector3(val.x, val.y, val.z);
             }
+            this.$emit("update:position", this.object3d.position);
             this.render();
         },
         setRotation(val) {
-            if (val instanceof THREE.Vector3) {
-                this.object3d.rotation = val;
+            if (val.isEuler) {
+                this.object3d.setRotationFromEuler(val);
             } else if (val && val.hasOwnProperty('x') && val.hasOwnProperty('y') && val.hasOwnProperty('z')) {
-                let rotation = new THREE.Vector3(val.x, val.y, val.z);
-                this.object3d.rotation = rotation;
-                this.$emit("update:rotation", rotation);
+                this.object3d.setRotationFromEuler(new THREE.Euler(val.x, val.y, val.z));
             }
+            this.$emit("update:rotation", this.object3d.rotation);
             this.render();
         },
         setScale(val) {
-            if (val instanceof THREE.Vector3) {
+            if (val.isVector3) {
                 this.object3d.scale = val;
             } else if (val && val.hasOwnProperty('x') && val.hasOwnProperty('y') && val.hasOwnProperty('z')) {
-                let scale = new THREE.Vector3(val.x, val.y, val.z);
-                this.object3d.scale = scale;
-                this.$emit("update:scale", scale);
+                this.object3d.scale = new THREE.Vector3(val.x, val.y, val.z);
             }
+            this.$emit("update:scale", this.object3d.scale);
             this.render();
         },
         setTarget() {

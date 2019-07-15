@@ -5,6 +5,7 @@
                 <v3d-scene v-for="scene in data.scenes" :id="scene.id" :key="scene.id">
                     <v-component v-for="com in scene.components" v-bind="com"></v-component>
                 </v3d-scene>
+                <v3d-geom-box name="aa"></v3d-geom-box>
                 <!--                <box-helper></box-helper>-->
                 <grid-helper :size="100"></grid-helper>
             </vue3d>

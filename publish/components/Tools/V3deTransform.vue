@@ -98,7 +98,7 @@
                 deep: true,
                 handler(val, oldVal) {
                     if (!this.selected && val === oldVal) return;
-                    this.position.x = parseFloat(val.x.toFixed(2));
+                    this.position.setX(parseFloat(val.x.toFixed(2)));
                     this.position.y = parseFloat(val.y.toFixed(2));
                     this.position.z = parseFloat(val.z.toFixed(2));
                     this.sync();
