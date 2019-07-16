@@ -14,7 +14,7 @@
         },
         methods: {
             update(val) {
-                this.$attrs[val.attr] = val.value
+                // this.$attrs[val.attr] = val.value
 
                 // this.$attrs.position.x++;
                 // console.log(this.$attrs.position)

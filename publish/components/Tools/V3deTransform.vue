@@ -98,7 +98,7 @@
                 deep: true,
                 handler(val, oldVal) {
                     if (!this.selected && val === oldVal) return;
-                    this.position.setX(parseFloat(val.x.toFixed(2)));
+                    this.position.x = parseFloat(val.x.toFixed(2));
                     this.position.y = parseFloat(val.y.toFixed(2));
                     this.position.z = parseFloat(val.z.toFixed(2));
                     this.sync();
@@ -139,7 +139,6 @@
             },
             setAxisX(n) {
                 this.rotation.x = parseFloat((n * Math.PI / 180).toFixed(2));
-                this.$editor.render();
             },
             setAxisY(n) {
                 this.rotation.y = parseFloat((n * Math.PI / 180).toFixed(2));
