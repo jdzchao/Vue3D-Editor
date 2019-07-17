@@ -22,9 +22,9 @@
 </template>
 
 <script>
-    import V3deTransform from "../components/Tools/V3deTransform";
-    import V3deMaterial from "../components/Tools/V3deMaterial";
-    import V3deSetting from "@edt/components/Tools/V3deSetting";
+    import V3deTransform from "./V3deTransform";
+    import V3deMaterial from "./V3deMaterial";
+    import V3deSetting from "./V3deSetting";
 
     export default {
         name: "PanelTools",

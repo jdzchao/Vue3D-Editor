@@ -3,10 +3,22 @@
         <div class="viewport">
             <vue3d ref="editor" :width="width" :height="height" :config="$config" @success="onSuccess">
                 <v3d-scene v-for="scene in data.scenes" :id="scene.id" :key="scene.id">
+                    <v3d-camera-perspective
+                            :width="width"
+                            :height="height"
+                            :position="{x: 0, y: 0, z: 10}"
+                            :near="0.1"
+                            :far="2000"
+                            :fov="70"
+                    ></v3d-camera-perspective>
+                    <v3d-light-rect-area
+                            :width="100"
+                            :height="100"
+                            :intensity="1"
+                            :position="{x: 0, y: 0, z: 10}"
+                    ></v3d-light-rect-area>
                     <v-component v-for="com in scene.components" v-bind="com"></v-component>
                 </v3d-scene>
-                <v3d-geom-box name="aa" :position="{x:1,y:1,z:0}" :rotation="rotation"
-                              :scale="{x:1,y:2,z:1}"></v3d-geom-box>
                 <!--                <box-helper></box-helper>-->
                 <grid-helper :size="100"></grid-helper>
             </vue3d>
@@ -28,7 +40,7 @@
     import BoxHelper from "./plugins/BoxHelper";
     import GridHelper from "./plugins/GridHelper";
     import VComponent from "./components/VComponent";
-    import MobilePreview from "@edt/layout/MobilePreview";
+    import MobilePreview from "./layout/MobilePreview";
     import * as THREE from 'three'
 
     export default {
@@ -59,50 +71,6 @@
 
                 ready: false,
                 rotation: {x: 0.2, y: 0.2, z: 0.2},
-                data: {
-                    version: 0.1,
-                    materials: [],
-                    scenes: [
-                        {
-                            id: 'editor',
-                            components: [
-                                {
-                                    id: 'camera',
-                                    type: 'V3dCameraPerspective',
-                                    width: this.width,
-                                    height: this.height,
-                                    position: {x: 0, y: 0, z: 10},
-                                    near: 0.1,
-                                    far: 2000,
-                                    fov: 70,
-                                },
-                                {
-                                    id: 'light',
-                                    type: 'V3dLightRectArea',
-                                    width: 100,
-                                    height: 100,
-                                    intensity: 1,
-                                    position: {x: 0, y: 0, z: 10}
-                                },
-                                {
-                                    id: 'box',
-                                    type: 'V3dGeomBox',
-                                    material: Bus.mtl_standard(),
-                                    // rotation: {x: 0.5, y: 0.5, z: 0.5},
-                                    position: {x: -1, y: -1, z: 0}
-                                    // children: [
-                                    //     {
-                                    //         id: 'box',
-                                    //         type: 'V3dGeomBox',
-                                    //         material: Bus.mtl_standard(),
-                                    //         position: {x: 2, y: 0, z: 0},
-                                    //     }
-                                    // ]
-                                }
-                            ]
-                        }
-                    ]
-                }
             }
         },
         watch: {},
@@ -116,7 +84,35 @@
                     this.core.capture.target = obj;
                 }
             },
-
+            data: {
+                get() {
+                    return {
+                        version: 0.1,
+                        materials: [],
+                        scenes: [
+                            {
+                                id: 'editor',
+                                components: [
+                                    {
+                                        id: 'box',
+                                        type: 'V3dGeomBox',
+                                        material: Bus.mtl_standard(),
+                                        position: {x: -1, y: -1, z: 0}
+                                        // children: [
+                                        //     {
+                                        //         id: 'box',
+                                        //         type: 'V3dGeomBox',
+                                        //         material: Bus.mtl_standard(),
+                                        //         position: {x: 2, y: 0, z: 0},
+                                        //     }
+                                        // ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+            }
         },
         mounted() {
             Vue.prototype.$editor = this;
@@ -138,9 +134,7 @@
                 this.orbit.control.enabled = !event.value;
             });
             this.scene.add(this.control);
-            setTimeout(() => {
-                this.rotation = {x: 1, y: 1, z: 1}
-            }, 2000)
+
             // resize
             this.onResize();
             window.addEventListener("resize", this.onResize);

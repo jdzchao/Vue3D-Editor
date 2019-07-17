@@ -84,7 +84,7 @@
 
 <script>
     import * as THREE from 'three'
-    import ImageUploader from '../../Uploader/ImageUploader'
+    import ImageUploader from '../../../components/Uploader/ImageUploader'
 
     export default {
         name: "MeshStandardMaterial",

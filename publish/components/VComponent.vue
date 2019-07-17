@@ -1,5 +1,5 @@
 <template>
-    <component :id="id" :is="type" v-bind="$attrs">
+    <component ref="obj" :id="id" :is="type" v-bind="$attrs">
         <v-component v-for="com in children" v-bind="com"></v-component>
     </component>
 </template>
@@ -12,14 +12,8 @@
             type: {type: String},
             children: {type: Array}
         },
-        methods: {
-            update(val) {
-                // this.$attrs[val.attr] = val.value
-
-                // this.$attrs.position.x++;
-                // console.log(this.$attrs.position)
-            },
-
+        mounted() {
+            console.log(this.$refs.obj.$props)
         },
         watch: {}
     }
