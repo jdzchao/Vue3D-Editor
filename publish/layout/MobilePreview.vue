@@ -13,13 +13,11 @@
                 top="60px"
                 :close-on-click-modal="false"
                 :modal-append-to-body="true"
-                :append-to-body="true"
 
                 @dragDialog="handleDrag"
                 @opened="handleOpened">
             <canvas id="preview" ref="preview"></canvas>
         </el-dialog>
-
     </div>
 </template>
 
@@ -107,16 +105,16 @@
 
 </style>
 <style>
-    .el-dialog__wrapper {
+    #mobile-preview .el-dialog__wrapper {
         pointer-events: none;
     }
 
-    .dialog {
+    #mobile-preview .dialog {
         pointer-events: visible;
         border: 1px solid #ffffff;
     }
 
-    .dialog > .el-dialog__body {
+    #mobile-preview .dialog > .el-dialog__body {
         padding: 0;
         background-color: rgb(25, 25, 25);
     }

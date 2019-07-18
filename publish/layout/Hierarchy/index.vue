@@ -17,12 +17,12 @@
                 </el-button>
             </el-button-group>
             <el-button-group class="btn-r">
-                <!--<el-button type="primary" @click="preview">预览</el-button>-->
-                <el-button @click="save" size="small" type="primary" :disabled="save_keep">
+                <el-button @click="save" size="small" type="primary" :loading="saving">
                     <vue-icon type="start"></vue-icon>
                 </el-button>
             </el-button-group>
         </div>
+        <hd-add :visible.sync="adding"></hd-add>
     </div>
 </template>
 
@@ -30,14 +30,15 @@
 
     import HiTree from "./HiTree";
     import HiScenes from "./HiScenes";
+    import HdAdd from "@edt/layout/Hierarchy/HdAdd";
 
     export default {
         name: "PanelHierarchy",
-        components: {HiScenes, HiTree},
+        components: {HdAdd, HiScenes, HiTree},
         data() {
             return {
-                save_text: '保存', // 保存 OR 保存中
-                save_keep: false,
+                adding: false,
+                saving: false,
             };
         },
         watch: {
@@ -52,19 +53,21 @@
         },
         methods: {
             appendSelected() {
+                this.adding = !this.adding
             },
             removeSelected() {
-                this.$editor.selected.parent.remove(this.$editor.selected)
-                this.freeSelected()
-                this.$editor.render()
+                if (this.$editor.selected && this.$editor.selected.isObject) {
+                    this.$editor.selected.parent.remove(this.$editor.selected)
+                    this.freeSelected()
+                    this.$editor.render()
+                }
             },
             freeSelected() {
                 this.$editor.selected = null
             },
             save() {
+                this.saving = !this.saving
             },
-
-
         }
     }
 </script>
