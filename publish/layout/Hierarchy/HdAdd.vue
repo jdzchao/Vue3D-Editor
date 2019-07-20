@@ -1,16 +1,13 @@
 <template>
     <el-dialog id="HdAdd" title="Add Object3D" :modal="false" :fullscreen="true" :visible.sync="opening">
         <el-row>
-            <drag-uploader/>
+            <drag-uploader @success="onUploaded"/>
         </el-row>
         <el-row>
-            <el-col :span="4" v-for="(o, index) in 2" :key="o">
+            <el-col style="cursor: pointer" :span="4" v-for="(item,index) in objects" :key="item.key">
                 <el-card :body-style="{ padding: '2px' }" shadow="hover">
-                    <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-                         class="image">
-                    <div style="padding: 10px;">
-                        <span>上传OBJ模型</span>
-                    </div>
+                    <img :src="item.thumbnail" class="image">
+                    <el-divider>{{item.name}}</el-divider>
                 </el-card>
             </el-col>
         </el-row>
@@ -29,7 +26,13 @@
         },
         data() {
             return {
-                currentDate: new Date()
+                objects: [
+                    {
+                        key: 'V3dBoxGeomBox',
+                        name: 'Cube',
+                        thumbnail: '/logo.png'
+                    }
+                ]
             }
         },
         computed: {
@@ -41,10 +44,14 @@
                     this.$emit("update:visible", val)
                 }
             }
+        },
+        methods: {
+            onUploaded(obj) {
+                console.log(obj)
+            }
         }
     }
 </script>
-
 <style>
     #HdAdd .image {
         width: 100%;
@@ -62,5 +69,9 @@
 
     #HdAdd .el-dialog__close {
         color: #ffffff
+    }
+
+    #HdAdd .el-divider__text {
+        font-weight: bold;
     }
 </style>

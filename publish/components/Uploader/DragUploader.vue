@@ -18,7 +18,8 @@
             uploadSuccess(res, file) {
                 if (res.code === 20000) {
                     this.$message.success('上传成功');
-                    this.$emit("input", this.$config.image_loader(res.data.name));
+                    this.$emit("input", this.$config.model_loader(res.data.name));
+                    this.$emit("success", this.$config.model_loader(res.data.name));
                 } else {
                     this.$message.error('上传失败');
                 }
@@ -28,7 +29,7 @@
 </script>
 
 <style>
-    .drag-uploader .el-upload{
+    .drag-uploader .el-upload {
         width: 100%;
     }
 

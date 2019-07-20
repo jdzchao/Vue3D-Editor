@@ -28,6 +28,10 @@ Vue.use(Vue3dEditor, {
         if (!name) return;
         if (!size) size = '1024';
         return 'https://s3.cifuwu.com/image/show/' + size + '/' + name;
+    },
+    model_loader: (name) => {
+        if (!name) return;
+        return 'https://s3.cifuwu.com/storage/uploads/' + name;
     }
 })
 

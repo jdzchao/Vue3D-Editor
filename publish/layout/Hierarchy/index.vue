@@ -56,7 +56,7 @@
                 this.adding = !this.adding
             },
             removeSelected() {
-                if (this.$editor.selected && this.$editor.selected.isObject) {
+                if (this.$editor.selected) {
                     this.$editor.selected.parent.remove(this.$editor.selected)
                     this.freeSelected()
                     this.$editor.render()

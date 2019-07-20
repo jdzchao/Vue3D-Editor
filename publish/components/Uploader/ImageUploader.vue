@@ -54,6 +54,7 @@
                 if (res.code === 20000) {
                     this.$message.success('上传成功');
                     this.$emit("input", this.$config.image_loader(res.data.name));
+                    this.$emit("success", this.$config.image_loader(res.data.name));
                 } else {
                     this.$message.error('上传失败');
                 }
@@ -76,6 +77,7 @@
                 window.event ? e.cancelBubble = true : e.stopPropagation();
                 this.$confirm('是否删除？').then(() => {
                     this.$emit("input", this.name);
+                    this.$emit("delete", this.name);
                 }).catch(() => {
                 })
             }
